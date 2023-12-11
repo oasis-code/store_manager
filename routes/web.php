@@ -18,4 +18,8 @@ use App\Http\Controllers\UserController;
 //     return view('welcome');
 // });
 
-Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
+Route::get('/admin/users', [UserController::class, 'user'])->name('admin.users.index');
+Route::get('/admin/users/create', [UserController::class, 'createUser'])->name('admin.users.create');
+Route::post('/admin/users', [UserController::class, 'storeUser'])->name('admin.users.store');
+Route::get('/admin/users/{nowuser}/edit', [UserController::class, 'editUser'])->name('admin.users.edit');
+Route::put('/admin/users/{nowuser}', [UserController::class, 'updateUser'])->name('admin.users.update');

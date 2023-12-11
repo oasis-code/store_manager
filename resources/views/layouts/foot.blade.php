@@ -169,15 +169,16 @@
     "buttons": ["csv", "excel", "pdf", "print"]
   }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
-  //data table export with filtering
-  $("#example2").DataTable({
+ //data table export with filtering
+ $("#example2").DataTable({
     "responsive": false,
     "lengthChange": false,
     "ordering": false,
-    "searching": true,
+    "searching": true,    
+    "info": false,
     "paging": false,
     "autoWidth": false,
-    "buttons": ["csv", "excel", "pdf", "print"]
+    "buttons": ["excel", "print"]
   }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
 
 
