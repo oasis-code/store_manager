@@ -4,26 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function user()
     {
         $users = User::all();
+        //dd($users);
         return view('admin.users.index', compact('users'));
     }
 
-    public function create()
+    public function createUser()
     {
-        return view('users.create');
+        return view('admin.users.create');
     }
 
-    public function store(Request $request)
+    public function storeUser(Request $request)
     {
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|confirmed|min:8',
             'role' => 'required|string',
         ]);
 
@@ -36,25 +38,21 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('users.index')->with('success', 'User created successfully');
+        return redirect()->route('admin.users.index')->with('success', 'User created successfully');
     }
 
-    public function show(User $user)
+    
+    public function editUser(User $nowuser)
     {
-        return view('users.show', compact('user'));
+        return view('admin.users.edit', compact('nowuser'));
     }
 
-    public function edit(User $user)
-    {
-        return view('users.edit', compact('user'));
-    }
-
-    public function update(Request $request, User $user)
+    public function updateUser(Request $request, User $user)
     {
         $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:6',
+            'email' => 'required|email',
+            'password' => 'nullable|string|confirmed|min:8',
             'role' => 'required|string',
         ]);
 
@@ -65,7 +63,7 @@ class UserController extends Controller
             'role' => $request->input('role'),
         ]);
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully');
+        return redirect()->route('admin.users.index')->with('success', 'User updated successfully');
     }
 
     public function destroy(User $user)

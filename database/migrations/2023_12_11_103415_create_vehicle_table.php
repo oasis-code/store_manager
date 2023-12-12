@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('vehicle', function (Blueprint $table) {
             $table->id();
-            $table->string('category_id');
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('vehicle_category');
             $table->string('model');
             $table->string('number_plate');
             $table->timestamps();
