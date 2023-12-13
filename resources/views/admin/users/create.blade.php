@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Add User | NASECO')
 @section('page_title', 'New User')
 
 @section('bread_crumb')

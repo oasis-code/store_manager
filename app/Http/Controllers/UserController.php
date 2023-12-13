@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -11,13 +12,20 @@ class UserController extends Controller
     public function user()
     {
         $users = User::all();
-        //dd($users);
-        return view('admin.users.index', compact('users'));
+        $user = Auth::user();
+        if($user->role != 'Admin'){
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this resource!.');
+        }
+        return view('admin.users.index', compact('users', 'user'));
     }
 
     public function createUser()
     {
-        return view('admin.users.create');
+        $user = Auth::user();
+        if($user->role != 'Admin'){
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this resource!.');
+        }
+        return view('admin.users.create', compact('user'));
     }
 
     public function storeUser(Request $request)
@@ -44,11 +52,16 @@ class UserController extends Controller
     
     public function editUser(User $nowuser)
     {
-        return view('admin.users.edit', compact('nowuser'));
+        $user = Auth::user();
+        if($user->role != 'Admin'){
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this resource!.');
+        }
+        return view('admin.users.edit', compact('nowuser', 'user'));
     }
 
-    public function updateUser(Request $request, User $user)
-    {
+    public function updateUser(Request $request, User $nowuser)
+    {   
+        //dd($request);
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
@@ -56,10 +69,10 @@ class UserController extends Controller
             'role' => 'required|string',
         ]);
 
-        $user->update([
+        $nowuser->update([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
-            'password' => $request->has('password') ? Hash::make($request->input('password')) : $user->password,
+            'password' => $request->has('password') ? Hash::make($request->input('password')) : $nowuser->password,
             'role' => $request->input('role'),
         ]);
 
