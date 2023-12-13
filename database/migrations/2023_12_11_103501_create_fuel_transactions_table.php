@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('fuel_transactions', function (Blueprint $table) {
             $table->id();           
             $table->unsignedBigInteger('vehicle_id')->nullable();
-            $table->foreign('vehicle_id')->references('id')->on('vehicle');
+            $table->foreign('vehicle_id')->references('id')->on('vehicles');
             $table->unsignedBigInteger('person_id')->nullable();
-            $table->foreign('person_id')->references('id')->on('person');
+            $table->foreign('person_id')->references('id')->on('persons');
             $table->string('type');
             $table->string('quantity');
             $table->date('date');

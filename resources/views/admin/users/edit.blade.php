@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Update User | NASECO')
 @section('page_title', 'Edit User')
 
 @section('bread_crumb')
@@ -79,7 +80,7 @@
                 <!-- /.card-body -->
                 <div class="card-footer">
                     <div class="card-tools text-right">
-                        <button name="submit" type="submit" class="btn btn-success">Create User</button>
+                        <button name="submit" type="submit" class="btn btn-success">update User</button>
                     </div>
                 </div>
             </div>

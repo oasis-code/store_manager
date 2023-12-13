@@ -16,7 +16,7 @@
     <div class="wrapper">
 
         @include('layouts.navbar')
-        @include('layouts.fuel-sidebar')
+        @include('layouts.main-sidebar')
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
