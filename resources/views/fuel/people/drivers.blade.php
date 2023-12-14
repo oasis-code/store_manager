@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Vehicle Categories ')
-@section('page_title', 'Vehicle Categories')
+@section('title', 'Drivers ')
+@section('page_title', 'Drivers')
 
 @section('bread_crumb')
     <ol class="breadcrumb float-sm-right">
-        <a href="{{ route('categories.create') }}" class="btn float-right bg-success"><i
+        <a href="{{ route('drivers.create') }}" class="btn float-right bg-success"><i
             class="fa fa-plus"></i> New
-        Vehicle Category
+        Driver
     </a>
     </ol>
 @endsection
@@ -26,11 +26,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @unless ($categories->isEmpty())
-                            @foreach ($categories as $category)
+                        @unless ($drivers->isEmpty())
+                            @foreach ($drivers as $driver)
                                 <tr class="text-nowrap">
                                     <td><a
-                                            href="{{ route('categories.edit', ['category' => $category]) }}">{{ $category->name }}</a>
+                                            href="{{ route('drivers.edit', ['driver' => $driver]) }}">{{ $driver->name }}</a>
                                     </td> 
                                                                        
                                 </tr>
@@ -38,7 +38,7 @@
                         @else
                             <tr class="border-gray-300">
                                 <td colspan="10">
-                                    <p class="text-center">No Categories Found</p>
+                                    <p class="text-center">No drivers Found</p>
                                 </td>
                             </tr>
                         @endunless

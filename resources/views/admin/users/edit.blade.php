@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app2')
 
 @section('title', 'Update User | NASECO')
 @section('page_title', 'Edit User')

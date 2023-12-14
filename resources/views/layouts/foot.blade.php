@@ -84,18 +84,16 @@
 
     //Date picker
     $('#reservationdate').datetimepicker({
-      format: 'DD-MM-YYYY',
+      format: 'YYYY-MM-DD',
       defaultDate: moment(),
       maxDate: moment(),
       allowInputToggle: true,
-      showTodayButton: true,
-      showClear: true,
      // daysOfWeekDisabled: [0, 6]
     });
 
     //Date picker
     $('#reservationdate1').datetimepicker({
-      format: 'DD-MM-YYYY',
+      format: 'YYYY-MM-DD',
       defaultDate: moment(),
       maxDate: moment(),
       allowInputToggle: true,
@@ -105,7 +103,7 @@
 
     //Date picker
     $('#reservationdate2').datetimepicker({
-      format: 'DD-MM-YYYY',
+      format: 'YYYY-MM-DD',
       defaultDate: moment(),
       maxDate: moment(),
       allowInputToggle: true,
