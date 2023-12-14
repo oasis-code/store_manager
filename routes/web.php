@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FuelTransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,4 +60,35 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/vehicles', [VehicleController::class, 'store'])->name('vehicles.store');
     Route::get('/vehicles/{vehicle}/edit', [VehicleController::class, 'edit'])->name('vehicles.edit');
     Route::put('/vehicles/{vehicle}', [VehicleController::class, 'update'])->name('vehicles.update');
+});
+
+//operators
+Route::middleware(['auth'])->group(function () {
+    Route::get('/operators', [PeopleController::class, 'index_operator'])->name('operators.index');
+    Route::get('/operators/create', [PeopleController::class, 'create_operator'])->name('operators.create');
+    Route::post('/operators', [PeopleController::class, 'store_operator'])->name('operators.store');
+    Route::get('/operators/{operator}/edit', [PeopleController::class, 'edit_operator'])->name('operators.edit');
+    Route::put('/operators/{operator}', [PeopleController::class, 'update_operator'])->name('operators.update');
+});
+
+//drivers
+Route::middleware(['auth'])->group(function () {
+    Route::get('/drivers', [PeopleController::class, 'index_driver'])->name('drivers.index');
+    Route::get('/drivers/create', [PeopleController::class, 'create_driver'])->name('drivers.create');
+    Route::post('/drivers', [PeopleController::class, 'store_driver'])->name('drivers.store');
+    Route::get('/drivers/{driver}/edit', [PeopleController::class, 'edit_driver'])->name('drivers.edit');
+    Route::put('/drivers/{driver}', [PeopleController::class, 'update_driver'])->name('drivers.update');
+});
+
+//fuel in
+Route::middleware(['auth'])->group(function () {
+    Route::get('/fuel-in', [FuelTransactionController::class, 'index_fuel_in'])->name('fuel-in.index');
+    Route::get('/fuel-in-report', [FuelTransactionController::class, 'report_fuel_in'])->name('fuel-in.report');
+    Route::get('/fuel-in/create', [FuelTransactionController::class, 'create_fuel_in'])->name('fuel-in.create');
+    Route::post('/fuel-in', [FuelTransactionController::class, 'store_fuel_in'])->name('fuel-in.store');
+    Route::get('/fuel-out', [FuelTransactionController::class, 'index_fuel_out'])->name('fuel-out.index');
+    Route::get('/fuel-out-report', [FuelTransactionController::class, 'report_fuel_out'])->name('fuel-out.report');
+    Route::get('/fuel-out/create', [FuelTransactionController::class, 'create_fuel_out'])->name('fuel-out.create');
+    Route::post('/fuel-out', [FuelTransactionController::class, 'store_fuel_out'])->name('fuel-out.store');
+   
 });

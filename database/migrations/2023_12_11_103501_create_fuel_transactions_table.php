@@ -16,9 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('vehicle_id')->nullable();
             $table->foreign('vehicle_id')->references('id')->on('vehicles');
             $table->unsignedBigInteger('person_id')->nullable();
-            $table->foreign('person_id')->references('id')->on('persons');
+            $table->foreign('person_id')->references('id')->on('people');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('type');
-            $table->string('quantity');
+            $table->decimal('quantity', 15, 2)->default(0.00); // Adjust the precision and scale as needed  
             $table->date('date');
             $table->timestamps();
         });

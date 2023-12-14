@@ -6,7 +6,7 @@
 @section('bread_crumb')
     <ol class="breadcrumb float-sm-right btn btn-default">
         <a href={{ route('vehicles.index') }}>
-            <li class="breadcrumb-item btn btn-outline-success btn-sm ">Users</li>
+            <li class="breadcrumb-item btn btn-outline-success btn-sm ">Vehicles</li>
         </a>
     </ol>
 @endsection

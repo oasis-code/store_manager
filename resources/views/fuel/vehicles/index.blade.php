@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Vehicles | NASECO')
+@section('title', 'Vehicles ')
 @section('page_title', 'Vehicles')
 
 @section('bread_crumb')
