@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Fuel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -36,6 +37,7 @@ class AuthController extends Controller
     public function dashboard()
     {
         $user = Auth::user();
+       
 
         return view('dashboards.dashboard', compact('user'));
     }
@@ -44,8 +46,9 @@ class AuthController extends Controller
     public function dashboard_fuel()
     {
         $user = Auth::user();
-
-        return view('dashboards.fuel', compact('user'));
+        $fuel = Fuel::where('type', 'Diesel')->first();
+        $balance = $fuel->balance;
+        return view('dashboards.fuel', compact('user', 'balance'));
     }
 
     //logout

@@ -21,7 +21,7 @@
                    
                     <div class="form-group">
                         <label for="name">Full Name *</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
+                        <input type="text" autocomplete="off" class="form-control" id="name" name="name" value="{{ old('name') }}"
                             placeholder="Enter name" required>
                         @error('name')
                             <div class="text-sm text-danger">{{ $message }}</div>
@@ -30,7 +30,7 @@
                    
                     <div class="form-group">
                         <label for="email">Email Address *</label>
-                        <input type="email" class="form-control" id="email" name="email"
+                        <input type="email" autocomplete="off" class="form-control" id="email" name="email"
                             value="{{ old('email') }}" placeholder="Enter email" required>
                         @error('email')
                             <div class="text-sm text-danger">{{ $message }}</div>
@@ -40,8 +40,10 @@
                         <label for="role">User Role *</label>
                         <select class="form-control select2" id="role" name="role" required>
                             <option value="">--Select User Role</option>
+                            @if($user->role == 'Admin')
                             <option value="Admin">Admin</option>
                             <option value="Manager">Manager</option>
+                            @endif
                             <option value="Store Keeper">Store Keeper</option>                           
                         </select>
                         @error('role')
@@ -53,8 +55,8 @@
                             <div class="form-group">
                                 <label for="password">Password *</label>
                                 <p class="text-sm">*password should be atleast 8 characters.</p>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    value="{{ old('password') }}" required>
+                                <input type="password" autocomplete="off" class="form-control" id="password" name="password"
+                                    value="" required>
                                 @error('password')
                                     <div class="text-sm text-danger">{{ $message }}</div>
                                 @enderror
@@ -64,8 +66,8 @@
                             <div class="form-group">
                                 <label for="password_confirmation">Password Confirmation *</label>
                                 <p class="text-sm">*Enter the password here again.</p>
-                                <input type="password" class="form-control" id="password_confirmation"
-                                    name="password_confirmation" value="{{ old('password_confirmation') }}" required>
+                                <input type="password" autocomplete="off" class="form-control" id="password_confirmation"
+                                    name="password_confirmation" value="" required>
                                 @error('password_confirmation')
                                     <div class="text-sm text-danger">{{ $message }}</div>
                                 @enderror

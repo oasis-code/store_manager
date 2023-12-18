@@ -5,7 +5,7 @@
 @section('main_content')
 
     <div class="login-logo">
-        <a href="#" class="text-success"><b>NASECO </b>Stock Ms</a>
+        <a href="#" class="text-success"><b>NASECO </b>Store MS</a>
     </div>
     @if (Session::has('error'))
         <div class="alert alert-danger alert-dismissible">

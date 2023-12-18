@@ -13,7 +13,7 @@ class UserController extends Controller
     {
         $users = User::all();
         $user = Auth::user();
-        if($user->role != 'Admin'){
+        if($user->role == 'Store Keeper'){
             return redirect()->route('dashboard')->with('error', 'You do not have permission to access this resource!.');
         }
         return view('admin.users.index', compact('users', 'user'));
@@ -22,7 +22,7 @@ class UserController extends Controller
     public function createUser()
     {
         $user = Auth::user();
-        if($user->role != 'Admin'){
+        if($user->role == 'Store Keeper'){
             return redirect()->route('dashboard')->with('error', 'You do not have permission to access this resource!.');
         }
         return view('admin.users.create', compact('user'));

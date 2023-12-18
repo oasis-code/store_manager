@@ -13,6 +13,9 @@ class CategoryController extends Controller
     {
         $categories = VehicleCategory::all();
         $user = Auth::user();
+        if($user->role == 'Store Keeper'){
+            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+        }
         return view('fuel.categories.index', compact('categories', 'user'));
     }
 
@@ -21,6 +24,9 @@ class CategoryController extends Controller
     {
         // Retrieve the authenticated user
         $user = Auth::user();
+        if($user->role == 'Store Keeper'){
+            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+        }
         return view('fuel.categories.create', compact('user'));
     }
 

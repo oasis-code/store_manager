@@ -16,12 +16,8 @@
 
     <div class="col-sm-12">
         <div class="card card-success card-outline">
-            <div class="card-header">
-                @php
-                $fuelbal = number_format($balance, 1, '.', ',');
-                @endphp
-                <h4 class="card-title text-success">Total Fuel Balance: <b><span class="count-up" data-value="{{ $balance }}">0</span> Litres</b> in stock</h4>
-                
+            <div class="card-header">                
+                <h4 class="card-title text-success">Total Fuel Balance:  <b>{{ $fuelbal = number_format($balance, 1, '.', ',') }} Litres</b> in stock</h4>                
             </div>
            
             <div class="card-body table-responsive">
@@ -33,8 +29,7 @@
                             <th>Vehicle Number</th>                 
                             <th>Driver</th> 
                             <th>Authorized by</th> 
-                            <th>Quantity (litres)</th>
-                            <th>Total</th>                             
+                            <th>Quantity (litres)</th>                                                
                         </tr>
                     </thead>
                     <tbody>
@@ -52,7 +47,6 @@
                                     <td>{{ $transaction->user->name }}</td>
                                     <td><b>{{ number_format($transaction->quantity, 1, '.', ',') }}</b></td>
                                     
-                                    <td><b>{{ number_format( $cumulativeSum += $transaction->quantity, 1, '.', ',') }}</b></td>
                                 </tr>
                             @endforeach
                         @else
@@ -71,33 +65,5 @@
             {{ $transactions->links() }}
         </div>
     </div>
-
-    <script>
-        // Count Up Animation
-        document.addEventListener('DOMContentLoaded', function () {
-            const countUpElements = document.querySelectorAll('.count-up');
-    
-            countUpElements.forEach((element) => {
-                const targetValue = parseFloat(element.getAttribute('data-value'));
-                const duration = 1000; // Animation duration in milliseconds
-    
-                const startTimestamp = performance.now();
-                const update = (currentTimestamp) => {
-                    const elapsed = currentTimestamp - startTimestamp;
-                    const progress = elapsed / duration;
-    
-                    if (progress < 1) {
-                        const animatedValue = progress * targetValue;
-                        element.textContent = animatedValue.toLocaleString(undefined, { minimumFractionDigits: 1 });
-                        requestAnimationFrame(update);
-                    } else {
-                        element.textContent = targetValue.toLocaleString(undefined, { minimumFractionDigits: 1 });
-                    }
-                };
-    
-                requestAnimationFrame(update);
-            });
-        });
-    </script>
 
 @endsection

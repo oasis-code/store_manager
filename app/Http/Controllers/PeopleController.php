@@ -13,6 +13,9 @@ class PeopleController extends Controller
      {
         $operators = People::where('role', 'Operator')->orderBy('created_at', 'desc')->get(); 
          $user = Auth::user();
+         if($user->role == 'Store Keeper'){
+            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+        }
          return view('fuel.people.operators', compact('operators', 'user'));
      }
 
@@ -21,6 +24,9 @@ class PeopleController extends Controller
      {
          // Retrieve the authenticated user
          $user = Auth::user();
+         if($user->role == 'Store Keeper'){
+            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+        }
          return view('fuel.people.create-operator', compact('user'));
      }
  
@@ -44,6 +50,9 @@ class PeopleController extends Controller
      {
          // Retrieve the authenticated user
          $user = Auth::user();
+         if($user->role == 'Store Keeper'){
+            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+        }
          return view('fuel.people.edit-operator', compact('user', 'operator'));
      }
  
@@ -66,6 +75,9 @@ class PeopleController extends Controller
      {
         $drivers = People::where('role', 'Driver')->orderBy('created_at', 'desc')->get(); 
          $user = Auth::user();
+         if($user->role == 'Store Keeper'){
+            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+        }
          return view('fuel.people.drivers', compact('drivers', 'user'));
      }
 
@@ -74,6 +86,9 @@ class PeopleController extends Controller
      {
          // Retrieve the authenticated user
          $user = Auth::user();
+         if($user->role == 'Store Keeper'){
+            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+        }
          return view('fuel.people.create-driver', compact('user'));
      }
  
@@ -97,6 +112,9 @@ class PeopleController extends Controller
      {
          // Retrieve the authenticated user
          $user = Auth::user();
+         if($user->role == 'Store Keeper'){
+            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+        }
          return view('fuel.people.edit-driver', compact('user', 'driver'));
      }
  

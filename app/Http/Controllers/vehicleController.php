@@ -14,6 +14,9 @@ class VehicleController extends Controller
     {
         $vehicles = Vehicle::all();
         $user = Auth::user();
+        if($user->role == 'Store Keeper'){
+            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+        }
         return view('fuel.vehicles.index', compact('vehicles', 'user'));
     }
 
@@ -22,6 +25,9 @@ class VehicleController extends Controller
     {
         $categories = VehicleCategory::all();
         $user = Auth::user();
+        if($user->role == 'Store Keeper'){
+            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+        }
         return view('fuel.vehicles.create', compact('user', 'categories'));
     }
 
@@ -46,6 +52,9 @@ class VehicleController extends Controller
     {
         $categories = VehicleCategory::all();
         $user = Auth::user();
+        if($user->role == 'Store Keeper'){
+            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+        }
         return view('fuel.vehicles.edit', compact('user', 'vehicle', 'categories'));
     }
 
