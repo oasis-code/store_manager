@@ -44,7 +44,7 @@
                             <option value="Admin">Admin</option>
                             <option value="Manager">Manager</option>
                             @endif
-                            <option value="Store Keeper">Store Keeper</option>                           
+                            <option selected value="Store Keeper">Store Keeper</option>                           
                         </select>
                         @error('role')
                             <div class="text-sm text-danger">{{ $message }}</div>
