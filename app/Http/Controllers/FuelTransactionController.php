@@ -58,8 +58,6 @@ class FuelTransactionController extends Controller
         return view('fuel.transactions.report-in', compact('transactions', 'user', 'balance', 'categories', 'vehicles'));
     }
 
-
-
     public function create_fuel_in()
     {
         // Retrieve the authenticated user
