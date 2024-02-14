@@ -12,30 +12,85 @@
           <nav class="mt-2">
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                   data-accordion="false">
-                  <li class="nav-item">
+                  {{-- <li class="nav-item">
                       <a href="{{ route('dashboard') }}" class="nav-link">
                           <i class="fas fa-tachometer-alt"></i>
                           <p>
-                              DASHBOARDS
+                              Back to main dashboard
                           </p>
                       </a>
-                  </li>
+                  </li> --}}
                   <li class="nav-item">
-                      <a href="fuel_report.php" class="nav-link">
-                          <i class="fas fa-cogs"></i>
+                      <a href="{{ route('dashboard') }}" class="nav-link">
+                          <i class="fas fa-car"></i>
                           <p>
-                              Settings
-                              <i class="fas fa-angle-left right"></i>
+                              Vehicle Management
                           </p>
+                          <i class="fas fa-angle-left right"></i>
                       </a>
                       <ul class="nav nav-treeview">
                           <li class="nav-item">
-                              <a href="{{ route('admin.users.index') }}" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>User Managment</p>
+                              <a href="{{ route('categories.index') }}" class="nav-link">
+
+                                  <p>
+                                      Vehicle Categories
+                                  </p>
+                              </a>
+                          </li>
+
+                          <li class="nav-item">
+                              <a href="{{ route('vehicles.index') }}" class="nav-link">
+
+                                  <p>
+                                      Vehicles
+                                  </p>
                               </a>
                           </li>
                       </ul>
+                  </li>
+                  <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                  data-accordion="false">
+                 
+                  <li class="nav-item">
+                      <a href="{{ route('dashboard') }}" class="nav-link">
+                        <i class="fas fa-user-tie"></i>
+
+                          <p>
+                              People Management
+                          </p>
+                          <i class="fas fa-angle-left right"></i>
+                      </a>
+                      <ul class="nav nav-treeview">
+                          <li class="nav-item">
+                              <a href="{{ route('operators.index') }}" class="nav-link">
+
+                                  <p>
+                                      Operators
+                                  </p>
+                              </a>
+                          </li>
+
+                          <li class="nav-item">
+                              <a href="{{ route('drivers.index') }}" class="nav-link">
+
+                                  <p>
+                                      Drivers
+                                  </p>
+                              </a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li class="nav-item">
+
+                      <a href="{{ route('admin.users.index') }}" class="nav-link">
+                          <i class="fas fa-user"></i> User Management
+
+
+                          </p>
+                      </a>
+
+
+
                   </li>
               </ul>
           </nav>

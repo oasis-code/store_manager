@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('lubs', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->decimal('balance', 15, 2)->default(0.00); // Adjust the precision and scale as needed  
+            $table->decimal('balance', 15, 2)->default(0.00);
             $table->timestamps();
         });
     }

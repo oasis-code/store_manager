@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lubs_transactions', function (Blueprint $table) {
+        Schema::create('lub_transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('vehicle_id')->nullable();
             $table->foreign('vehicle_id')->references('id')->on('vehicles');
@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('person_id')->references('id')->on('people');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('lub_id')->nullable();
+            $table->foreign('lub_id')->references('id')->on('lubs');
             $table->string('type');
             $table->decimal('quantity', 15, 2)->default(0.00); // Adjust the precision and scale as needed  
             $table->date('date');
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lubs_transactions');
+        Schema::dropIfExists('lub_transactions');
     }
 };

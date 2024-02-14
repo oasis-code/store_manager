@@ -14,9 +14,9 @@ class PeopleController extends Controller
         $operators = People::where('role', 'Operator')->orderBy('created_at', 'desc')->get(); 
          $user = Auth::user();
          if($user->role == 'Store Keeper'){
-            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this resource!.');
         }
-         return view('fuel.people.operators', compact('operators', 'user'));
+         return view('admin.people.operators', compact('operators', 'user'));
      }
 
         
@@ -25,9 +25,9 @@ class PeopleController extends Controller
          // Retrieve the authenticated user
          $user = Auth::user();
          if($user->role == 'Store Keeper'){
-            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+            return redirect()->route('dashboard.')->with('error', 'You do not have permission to access this resource!.');
         }
-         return view('fuel.people.create-operator', compact('user'));
+         return view('admin.people.create-operator', compact('user'));
      }
  
      public function store_operator(Request $request)
@@ -51,9 +51,9 @@ class PeopleController extends Controller
          // Retrieve the authenticated user
          $user = Auth::user();
          if($user->role == 'Store Keeper'){
-            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this resource!.');
         }
-         return view('fuel.people.edit-operator', compact('user', 'operator'));
+         return view('admin.people.edit-operator', compact('user', 'operator'));
      }
  
      public function update_operator(Request $request, People $operator)
@@ -76,9 +76,9 @@ class PeopleController extends Controller
         $drivers = People::where('role', 'Driver')->orderBy('created_at', 'desc')->get(); 
          $user = Auth::user();
          if($user->role == 'Store Keeper'){
-            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this resource!.');
         }
-         return view('fuel.people.drivers', compact('drivers', 'user'));
+         return view('admin.people.drivers', compact('drivers', 'user'));
      }
 
         
@@ -87,9 +87,9 @@ class PeopleController extends Controller
          // Retrieve the authenticated user
          $user = Auth::user();
          if($user->role == 'Store Keeper'){
-            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this resource!.');
         }
-         return view('fuel.people.create-driver', compact('user'));
+         return view('admin.people.create-driver', compact('user'));
      }
  
      public function store_driver(Request $request)
@@ -113,9 +113,9 @@ class PeopleController extends Controller
          // Retrieve the authenticated user
          $user = Auth::user();
          if($user->role == 'Store Keeper'){
-            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this resource!.');
         }
-         return view('fuel.people.edit-driver', compact('user', 'driver'));
+         return view('admin.people.edit-driver', compact('user', 'driver'));
      }
  
      public function update_driver(Request $request, People $driver)

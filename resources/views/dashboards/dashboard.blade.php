@@ -17,7 +17,7 @@
       <div class="inner">
         <!-- <h3 class="text-success">150</h3> -->
 
-        <p>Fuel</p>
+        <p>Fuel and Lubricants</p>
       </div>
       <div class="icon">
       <i class="fas fa-gas-pump"></i>
@@ -27,21 +27,7 @@
     </div>
   </div>
   <!-- ./col -->
-  <div class="col-lg-6 col-12">
-    <!-- small box -->
-    <div class="small-box bg-light elevation-4">
-      <div class="inner">
-        <!-- <h3 class="text-success">53</h3> -->
-
-        <p>Oil and grease</p>
-      </div>
-      <div class="icon">
-      <i class="fas fa-oil-can"></i>
-
-      </div>
-      <a href="#" class="small-box-footer">Go to dashboard <i class="fas fa-arrow-circle-right"></i></a>
-    </div>
-  </div>
+  
   <!-- ./col -->
   <div class="col-lg-6 col-12">
     <!-- small box -->
@@ -93,21 +79,6 @@
   </div>
   <!-- ./col -->
   <!-- ./col -->
-  <div class="col-lg-6 col-12">
-    <!-- small box -->
-    <div class="small-box bg-light elevation-4">
-      <div class="inner">
-        <!-- <h3 class="text-success">53</h3> -->
-
-        <p>Others</p>
-      </div>
-      <div class="icon">
-      <i class="fas fa-question-circle"></i>
-
-      </div>
-      <a href="#" class="small-box-footer">Go to dashboard <i class="fas fa-arrow-circle-right"></i></a>
-    </div>
-  </div>
-
+  
     
 @endsection

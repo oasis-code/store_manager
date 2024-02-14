@@ -16,7 +16,7 @@ class CategoryController extends Controller
         if($user->role == 'Store Keeper'){
             return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
         }
-        return view('fuel.categories.index', compact('categories', 'user'));
+        return view('admin.categories.index', compact('categories', 'user'));
     }
 
     //create branch form
@@ -27,7 +27,7 @@ class CategoryController extends Controller
         if($user->role == 'Store Keeper'){
             return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
         }
-        return view('fuel.categories.create', compact('user'));
+        return view('admin.categories.create', compact('user'));
     }
 
     public function store(Request $request)
@@ -49,7 +49,7 @@ class CategoryController extends Controller
     {
         // Retrieve the authenticated user
         $user = Auth::user();
-        return view('fuel.categories.edit', compact('user', 'category'));
+        return view('admin.categories.edit', compact('user', 'category'));
     }
 
     public function update(Request $request, VehicleCategory $category)

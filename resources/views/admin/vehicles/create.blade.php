@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app2')
 
 @section('title', 'New Vehicle | NASECO')
 @section('page_title', 'New Vehicle')
