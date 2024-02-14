@@ -63,7 +63,7 @@ class FuelTransactionController extends Controller
         // Retrieve the authenticated user
         $user = Auth::user();
         $vehicles = Vehicle::all();
-        $drivers = People::where('role', 'Driver')->orderBy('created_at', 'desc')->paginate(50);
+        $drivers = People::where('role', 'Driver')->get();
         return view('fuel.transactions.create-in', compact('user', 'vehicles', 'drivers'));
     }
 
@@ -163,7 +163,7 @@ class FuelTransactionController extends Controller
         // Retrieve the authenticated user
         $user = Auth::user();
         $vehicles = Vehicle::all();
-        $operators = People::where('role', 'Operator')->orderBy('created_at', 'desc')->paginate(50);
+        $operators = People::where('role', 'Operator')->get();
         return view('fuel.transactions.create-out', compact('user', 'vehicles', 'operators'));
     }
 

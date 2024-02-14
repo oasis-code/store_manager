@@ -7,6 +7,8 @@ use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FuelTransactionController;
+use App\Http\Controllers\LubTransactionController;
+use App\Http\Controllers\LubController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,5 +92,27 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/fuel-out-report', [FuelTransactionController::class, 'report_fuel_out'])->name('fuel-out.report');
     Route::get('/fuel-out/create', [FuelTransactionController::class, 'create_fuel_out'])->name('fuel-out.create');
     Route::post('/fuel-out', [FuelTransactionController::class, 'store_fuel_out'])->name('fuel-out.store');
+   
+});
+
+//Lubs
+Route::middleware(['auth'])->group(function () {
+    Route::get('/lubs', [LubController::class, 'index'])->name('lubs.index');
+    Route::get('/lubs/create', [LubController::class, 'create'])->name('lubs.create');
+    Route::post('/lubs', [LubController::class, 'store'])->name('lubs.store');
+    Route::get('/lubs/{lub}/edit', [LubController::class, 'edit'])->name('lubs.edit');
+    Route::put('/lubs/{lub}', [LubController::class, 'update'])->name('lubs.update');
+});
+
+//lub in
+Route::middleware(['auth'])->group(function () {
+    Route::get('/lub-in', [LubTransactionController::class, 'index_lub_in'])->name('lub-in.index');
+    Route::get('/lub-in-report', [LubTransactionController::class, 'report_lub_in'])->name('lub-in.report');
+    Route::get('/lub-in/create', [LubTransactionController::class, 'create_lub_in'])->name('lub-in.create');
+    Route::post('/lub-in', [LubTransactionController::class, 'store_lub_in'])->name('lub-in.store');
+    Route::get('/lub-out', [LubTransactionController::class, 'index_lub_out'])->name('lub-out.index');
+    Route::get('/lub-out-report', [LubTransactionController::class, 'report_lub_out'])->name('lub-out.report');
+    Route::get('/lub-out/create', [LubTransactionController::class, 'create_lub_out'])->name('lub-out.create');
+    Route::post('/lub-out', [LubTransactionController::class, 'store_lub_out'])->name('lub-out.store');
    
 });

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'lub In')
-@section('page_title', 'New lub In Transaction')
+@section('title', 'lub Out')
+@section('page_title', 'New lub Out Transaction')
 
 @section('bread_crumb')
     <ol class="breadcrumb float-sm-right btn btn-default">
         <a href={{ route('lub-in.index') }}>
-            <li class="breadcrumb-item btn btn-outline-success btn-sm ">Lub In Transactions</li>
+            <li class="breadcrumb-item btn btn-outline-success btn-sm ">lub Out Transactions</li>
         </a>
     </ol>
 @endsection
@@ -14,7 +14,7 @@
 @section('main_content')
 
     <div class="col-sm-12">
-        <form method="post" action="{{ route('lub-in.store') }}">
+        <form method="post" action="{{ route('lub-out.store') }}">
             @csrf
             <div class="card card-outline card-success pl-5 pr-5">
                 <div class="card-body">   
@@ -34,7 +34,20 @@
                             <div class="text-sm text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    
+                    <div class="form-group">
+                        <label for="lub_id">Lubricant Type *</label>
+                        <select class="form-control select2" id="lub_id" name="lub_id" required>
+                            <option value="">--Select type</option>
+                            @foreach ($lubs as $lub)
+                                <option value="{{ $lub->id }}">
+                                    {{ $lub->type }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('lub_id')
+                            <div class="text-sm text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>                    
                     <div class="form-group">
                         <label for="vehicle_id">Vehicle *</label>
                         <select class="form-control select2" id="vehicle_id" name="vehicle_id" required>
@@ -49,11 +62,11 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="person_id">Driver *</label>
+                        <label for="person_id">Operator *</label>
                         <select class="form-control select2" id="person_id" name="person_id" required>
-                            <option value="">--Select Vehicle</option>
-                            @foreach ($drivers as $driver)
-                                <option value="{{ $driver->id }}">{{ $driver->name }}</option>
+                            <option value="">--Select Operator</option>
+                            @foreach ($operators as $operator)
+                                <option value="{{ $operator->id }}">{{ $operator->name }}</option>
                             @endforeach
                         </select>
                         @error('person_id')
@@ -62,7 +75,7 @@
                     </div>
                    
                     <div class="form-group">
-                        <label for="quantity">Quantity of lubricant *</label>
+                        <label for="quantity">Quantity of lub *</label>
                         <div class="input-group">
                             <input type="number" class="form-control" id="quantity"
                                 name="quantity" value="{{ old('quantity') }}" required>
@@ -78,7 +91,7 @@
                     <input type="text" class="form-control" id="user_id"
                     name="user_id" value="{{ $user->id }}" hidden>   
                     <input type="text" class="form-control" id="type"
-                    name="type" value="In" hidden>       
+                    name="type" value="Out" hidden>       
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">

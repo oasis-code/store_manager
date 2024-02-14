@@ -15,9 +15,9 @@ class VehicleController extends Controller
         $vehicles = Vehicle::all();
         $user = Auth::user();
         if($user->role == 'Store Keeper'){
-            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this resource!.');
         }
-        return view('fuel.vehicles.index', compact('vehicles', 'user'));
+        return view('admin.vehicles.index', compact('vehicles', 'user'));
     }
 
     //create branch form
@@ -26,9 +26,9 @@ class VehicleController extends Controller
         $categories = VehicleCategory::all();
         $user = Auth::user();
         if($user->role == 'Store Keeper'){
-            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this resource!.');
         }
-        return view('fuel.vehicles.create', compact('user', 'categories'));
+        return view('admin.vehicles.create', compact('user', 'categories'));
     }
 
     public function store(Request $request)
@@ -53,9 +53,9 @@ class VehicleController extends Controller
         $categories = VehicleCategory::all();
         $user = Auth::user();
         if($user->role == 'Store Keeper'){
-            return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this resource!.');
         }
-        return view('fuel.vehicles.edit', compact('user', 'vehicle', 'categories'));
+        return view('admin.vehicles.edit', compact('user', 'vehicle', 'categories'));
     }
 
     public function update(Request $request, Vehicle $vehicle)

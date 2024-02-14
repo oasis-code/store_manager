@@ -11,10 +11,11 @@
           <nav class="mt-2">
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                   data-accordion="false">
+                  
                   <li class="nav-item">
                       <a href="{{ route('dashboard.fuel') }}" class="nav-link">
                           <h5 class="text-success"><b>
-                                  Fuel Module
+                                 Fuel and Lubricants
                               </b></h5>
                       </a>
                       <hr class="p-0 m-0">
@@ -36,39 +37,30 @@
                       </a>
                   </li>
                   <li class="nav-item">
-                      <a href="{{ route('categories.index') }}" class="nav-link">
-                          <i class="fas fa-th-large"></i>
-                          <p>
-                              Categories
-                          </p>
-                      </a>
-                  </li>
+                    <a href="{{ route('lub-in.index') }}" class="nav-link">
+                        <i class="fas fa-plus"></i>
+                        <p>
+                            Lubs In
+                        </p>
+                    </a>
+                </li>
                   <li class="nav-item">
-                      <a href="{{ route('vehicles.index') }}" class="nav-link">
-                          <i class="fas fa-car"></i>
-                          <p>
-                              Vehicles
-                          </p>
-                      </a>
-                  </li>
+                    <a href="{{ route('lub-out.index') }}" class="nav-link">
+                        <i class="fas fa-minus"></i>
+                        <p>
+                            lubs Out
+                        </p>
+                    </a>
+                </li>
                   <li class="nav-item">
-                      <a href="{{ route('operators.index') }}" class="nav-link">
-                          <i class="fas fa-user-tie"></i>
-
-                          <p>
-                              Operators
-                          </p>
-                      </a>
-                  </li>
-                  <li class="nav-item">
-                      <a href="{{ route('drivers.index') }}" class="nav-link">
-                          <i class="fas fa-user-tie"></i>
-
-                          <p>
-                              Drivers
-
-                          </p>
-                      </a>
+                    <a href="{{ route('lubs.index') }}" class="nav-link">
+                        <i class="fas fa-th-large"></i>
+                        <p>
+                            Lubricants
+                        </p>
+                    </a>
+                </li>
+                  
 
                   </li>
                   <li class="nav-item">
@@ -91,7 +83,20 @@
                               <i class="far fa-circle nav-icon"></i>
                               <p>Fuel Out Report</p>
                             </a>
-                          </li>                          
+                          </li> 
+                          <li class="nav-item">
+                            <a href="{{ route('lub-in.report') }}" class="nav-link">
+                              <i class="far fa-circle nav-icon"></i>
+                              <p>lubs in Report</p>
+                            </a>
+                          </li>     
+                          <li class="nav-item">
+                            <a href="{{ route('lub-out.report') }}" class="nav-link">
+                              <i class="far fa-circle nav-icon"></i>
+                              <p>lubs Out Report</p>
+                            </a>
+                          </li> 
+                                                 
                         </ul>
                   </li>
               </ul>
