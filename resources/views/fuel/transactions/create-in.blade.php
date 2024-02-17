@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'lub In')
-@section('page_title', 'New lub In Transaction')
+@section('title', 'Fuel In')
+@section('page_title', 'New Fuel In Transaction')
 
 @section('bread_crumb')
     <ol class="breadcrumb float-sm-right btn btn-default">
         <a href={{ route('lub-in.index') }}>
-            <li class="breadcrumb-item btn btn-outline-success btn-sm ">Lub In Transactions</li>
+            <li class="breadcrumb-item btn btn-outline-success btn-sm ">Fuel In Transactions</li>
         </a>
     </ol>
 @endsection
@@ -14,7 +14,7 @@
 @section('main_content')
 
     <div class="col-sm-12">
-        <form method="post" action="{{ route('lub-in.store') }}">
+        <form method="post" action="{{ route('fuel-in.store') }}">
             @csrf
             <div class="card card-outline card-success pl-5 pr-5">
                 <div class="card-body">   
@@ -62,7 +62,7 @@
                     </div>
                    
                     <div class="form-group">
-                        <label for="quantity">Quantity of lubricant *</label>
+                        <label for="quantity">Quantity of fuel *</label>
                         <div class="input-group">
                             <input type="number" class="form-control" id="quantity"
                                 name="quantity" value="{{ old('quantity') }}" required>
