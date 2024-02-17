@@ -156,6 +156,49 @@ class FuelTransactionController extends Controller
         return view('fuel.transactions.report-out', compact('transactions', 'user', 'balance', 'categories', 'vehicles'));
     }
 
+    public function report_fuel_out_sum(Request $request)
+    {
+
+        $user = Auth::user();
+
+        if ($request->filled('year')) {
+            $year = $request->input('year', date('Y'));
+        } else {
+            $year = date('Y');
+        }
+
+        // Fetch fuel transactions with related vehicle and category
+        $fuelTransactions = FuelTransaction::with('vehicle.category')
+            ->whereYear('date', $year)
+            ->get();
+
+        // Initialize an array to store the summary data
+        $summaryData = [];
+        //array to store years
+        $yearsArray = array();
+        // Loop through years from 2020 to 2030 and add them to the array
+        for ($y = 2020; $y <= 2030; $y++) {
+            $yearsArray[] = $y;
+        }
+
+        // Iterate over fuel transactions to calculate totals per category and vehicle
+        foreach ($fuelTransactions as $transaction) {
+            $categoryName = $transaction->vehicle->category->name;
+            $vehicleName = strtoupper(substr($transaction->vehicle->category->name, 0, 1)).'/'.$transaction->vehicle->model.'/'.$transaction->vehicle->number_plate;
+            $month = date('M', strtotime($transaction->date));
+            $quantity = $transaction->quantity;
+
+            // Add quantity to the corresponding category subtotal
+            $summaryData[$categoryName]['total'] = isset($summaryData[$categoryName]['total']) ? $summaryData[$categoryName]['total'] + $quantity : $quantity;
+            // Add quantity to the corresponding vehicle subtotal
+            $summaryData[$categoryName]['vehicles'][$vehicleName][$month] = isset($summaryData[$categoryName]['vehicles'][$vehicleName][$month]) ? $summaryData[$categoryName]['vehicles'][$vehicleName][$month] + $quantity : $quantity;
+        }
+
+
+
+        return view('fuel.transactions.report-out-sum', compact('summaryData', 'user', 'year', 'yearsArray'));
+    }
+
 
 
     public function create_fuel_out()

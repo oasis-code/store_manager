@@ -86,6 +86,8 @@
 <body>
 
 <?php
+
+$vehicleName = strtoupper(substr($transaction->vehicle->category->name, 0, 1)).'/'.$transaction->vehicle->model.'/'.$transaction->vehicle->number_plate;
 // Define months and vehicle headers
 $months = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
 $vehicles = array('UBA227W/JD5075E', 'UAW178Y/JD6100B', 'UAV851F/JD5503', 'UAV746F/JD6125D', 'UAZ149Y/JD6125D', 'UAT358R/JD5503', 'NEW290MF', 'OLD290MF', 'UBB904D', 'UBM 902T', 'UBM 901T', 'UBP 634J/UBP207Q', 'COMBINE', 'UBH 547TMACCOR', 'ISUZU', 'CANTER', 'TATA', 'SCANIA', 'CRANE Hired truck', 'UAE 200M', 'UAW 490K', 'BULL/BACKHOE', 'OTHERS/Mixture', 'Excavator', 'TANGI FARM', 'GENERATOR');
@@ -223,3 +225,125 @@ $data['Total']['Total'] = $total;
 
 </body>
 </html>
+
+
+<div class="col-sm-12">
+        <div class="card card-success card-outline">
+
+
+            <div class="card-body table-responsive">
+                <table>
+                    <tr>
+                        <th colspan ="16"><h3>Summary Report of fuel Consumption for each Vehicle per Month and per Season for year : {{ $year }} </h3></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th colspan="12">Months</th>
+                        <th colspan="3">Total per Vehicle </th>
+                    </tr>
+                <tr>
+                    <th>Vehicle</th>
+                                <th class="rotate ">Jan</th>
+                                <th class="rotate ">Feb</th>
+                                <th class="rotate ">Mar</th>
+                                <th class="rotate ">Apr</th>
+                                <th class="rotate ">May</th>
+                                <th class="rotate bold-june-july">Jun</th>
+                                <th class="rotate ">Jul</th>
+                                <th class="rotate ">Aug</th>
+                                <th class="rotate ">Sep</th>
+                                <th class="rotate ">Oct</th>
+                                <th class="rotate ">Nov</th>
+                                <th class="rotate ">Dec</th>
+                            <th class="bold-column">Season A (Jan-Jun)</th>
+                    <th class="bold-season">Season B (Jul-Dec)</th>
+                    <th class="last-column overall-column">Overall (Jan-Dec)</th>
+                </tr>
+                @foreach($summaryData as $categoryName => $categoryData)
+               
+                <tr>
+                    <!-- Table headers -->
+                </tr>
+                @foreach($categoryData['vehicles'] as $vehicleName => $months)
+                    <tr>
+                        <td>{{ $vehicleName }}</td>
+                        @foreach(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] as $month)
+                            <td>{{ $months[$month] ?? 0 }}</td>
+                        @endforeach
+                        <!-- Total per vehicle -->
+                    </tr>
+                @endforeach
+                <!-- Subtotal per category -->
+            @endforeach
+            <!-- Total per month row -->
+        </table>
+            </div>
+
+        </div>
+        <div class="pb-3">
+
+        </div>
+    </div>
+
+
+    <!-- more -->
+    <table>
+                    <tr>
+                        <th colspan ="16">
+                            <h3>Summary Report of fuel Consumption for each Vehicle per Month and per Season for year :
+                                {{ $year }} </h3>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th colspan="12">Months</th>
+                        <th colspan="3">Total per Vehicle </th>
+                    </tr>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th class="rotate ">Jan</th>
+                        <th class="rotate ">Feb</th>
+                        <th class="rotate ">Mar</th>
+                        <th class="rotate ">Apr</th>
+                        <th class="rotate ">May</th>
+                        <th class="rotate bold-june-july">Jun</th>
+                        <th class="rotate ">Jul</th>
+                        <th class="rotate ">Aug</th>
+                        <th class="rotate ">Sep</th>
+                        <th class="rotate ">Oct</th>
+                        <th class="rotate ">Nov</th>
+                        <th class="rotate ">Dec</th>
+                        <th class="bold-column">Season A (Jan-Jun)</th>
+                        <th class="bold-season">Season B (Jul-Dec)</th>
+                        <th class="last-column overall-column">Overall (Jan-Dec)</th>
+                    </tr>
+                    @foreach ($summaryData as $categoryName => $categoryData)
+                        <tr>
+                           
+                        </tr>
+                        @foreach ($categoryData['vehicles'] as $vehicleName => $months)
+                            <tr>
+                                <td>{{ $vehicleName }}</td>
+                                @php
+                                    $seasonA = array_slice($months, 0, 6);
+                                    $seasonB = array_slice($months, 6, 6);
+                                    $totalSeasonA = array_sum($seasonA);
+                                    $totalSeasonB = array_sum($seasonB);
+                                    $overallTotal = array_sum($months);
+                                @endphp
+                                @foreach (['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] as $month)
+                                    <td>{{ $months[$month] ?? 0 }}</td>
+                                @endforeach
+                                <td>{{ $totalSeasonA }}</td>
+                                <td>{{ $totalSeasonB }}</td>
+                                <td>{{ $overallTotal }}</td>
+
+                            </tr>
+                        
+                        @endforeach
+                        <!-- add Subtotal per category and season -->
+                        
+                        
+                    @endforeach
+                    <!-- add Total per month row -->
+                </table>
