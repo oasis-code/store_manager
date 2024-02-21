@@ -28,7 +28,7 @@
                             <th>Date</th>
                             <th>Vehicle Number</th>                 
                             <th>Driver</th> 
-                            <th>Authorized by</th> 
+                            <th>Issued by</th> 
                             <th>Quantity (litres)</th>                                                
                         </tr>
                     </thead>

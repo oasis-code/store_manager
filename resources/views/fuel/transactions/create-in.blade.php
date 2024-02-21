@@ -5,7 +5,7 @@
 
 @section('bread_crumb')
     <ol class="breadcrumb float-sm-right btn btn-default">
-        <a href={{ route('lub-in.index') }}>
+        <a href={{ route('fuel-in.index') }}>
             <li class="breadcrumb-item btn btn-outline-success btn-sm ">Fuel In Transactions</li>
         </a>
     </ol>
