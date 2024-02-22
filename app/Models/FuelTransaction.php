@@ -16,6 +16,10 @@ class FuelTransaction extends Model
         'type',
         'quantity',
         'date',
+        'reverses',
+        'is_reversed',
+        'reversal_reason',
+        'reversed_by',
     ];
 
     // Define relationships if necessary

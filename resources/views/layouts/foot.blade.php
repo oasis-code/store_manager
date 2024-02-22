@@ -112,6 +112,14 @@
 
     });
 
+    $('.datepicker').each(function() {
+    $(this).datetimepicker({
+        format: 'YYYY-MM-DD',
+        defaultDate: moment(),
+        maxDate: moment(),
+        allowInputToggle: true,
+    });
+});
    
 
     //Date and time picker

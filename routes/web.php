@@ -88,11 +88,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/fuel-in-report', [FuelTransactionController::class, 'report_fuel_in'])->name('fuel-in.report');
     Route::get('/fuel-in/create', [FuelTransactionController::class, 'create_fuel_in'])->name('fuel-in.create');
     Route::post('/fuel-in', [FuelTransactionController::class, 'store_fuel_in'])->name('fuel-in.store');
+    Route::post('/reverse-fuel-in', [FuelTransactionController::class, 'reverse_fuel_in'])->name('fuel-in.reverse');
     Route::get('/fuel-out', [FuelTransactionController::class, 'index_fuel_out'])->name('fuel-out.index');
     Route::get('/fuel-out-report', [FuelTransactionController::class, 'report_fuel_out'])->name('fuel-out.report');
     Route::get('/fuel-out-report-sum', [FuelTransactionController::class, 'report_fuel_out_sum'])->name('fuel-out.report-sum');
     Route::get('/fuel-out/create', [FuelTransactionController::class, 'create_fuel_out'])->name('fuel-out.create');
     Route::post('/fuel-out', [FuelTransactionController::class, 'store_fuel_out'])->name('fuel-out.store');
+    Route::post('/reverse-fuel-out', [FuelTransactionController::class, 'reverse_fuel_out'])->name('fuel-out.reverse');
    
 });
 
