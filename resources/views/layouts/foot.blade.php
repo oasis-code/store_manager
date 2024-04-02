@@ -112,6 +112,16 @@
 
     });
 
+    $('.datepicker').each(function() {
+    $(this).datetimepicker({
+        format: 'YYYY-MM-DD',
+        defaultDate: moment(),
+        maxDate: moment(),
+        allowInputToggle: true,
+    });
+});
+   
+
     //Date and time picker
     $('#reservationdatetime').datetimepicker({
       icons: {
@@ -180,15 +190,18 @@
   }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
 
 
-  $('#example3').DataTable({
-    "paging": false,
+ //data table export with filtering
+ $("#example3").DataTable({
+    "responsive": false,
     "lengthChange": false,
-    "searching": true,
     "ordering": false,
-    "info": true,
+    "searching": false,    
+    "info": false,
+    "paging": false,
     "autoWidth": false,
-    "responsive": true,
-  });
+    "buttons": ["excel", "print"]
+  }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
+
 </script>
 
 

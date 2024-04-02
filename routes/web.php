@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChemicalController;
 use App\Http\Controllers\FuelTransactionController;
 use App\Http\Controllers\LubTransactionController;
 use App\Http\Controllers\LubController;
@@ -82,16 +83,19 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/drivers/{driver}', [PeopleController::class, 'update_driver'])->name('drivers.update');
 });
 
-//fuel in
+//fuel
 Route::middleware(['auth'])->group(function () {
     Route::get('/fuel-in', [FuelTransactionController::class, 'index_fuel_in'])->name('fuel-in.index');
     Route::get('/fuel-in-report', [FuelTransactionController::class, 'report_fuel_in'])->name('fuel-in.report');
     Route::get('/fuel-in/create', [FuelTransactionController::class, 'create_fuel_in'])->name('fuel-in.create');
     Route::post('/fuel-in', [FuelTransactionController::class, 'store_fuel_in'])->name('fuel-in.store');
+    Route::post('/reverse-fuel-in', [FuelTransactionController::class, 'reverse_fuel_in'])->name('fuel-in.reverse');
     Route::get('/fuel-out', [FuelTransactionController::class, 'index_fuel_out'])->name('fuel-out.index');
     Route::get('/fuel-out-report', [FuelTransactionController::class, 'report_fuel_out'])->name('fuel-out.report');
+    Route::get('/fuel-out-report-sum', [FuelTransactionController::class, 'report_fuel_out_sum'])->name('fuel-out.report-sum');
     Route::get('/fuel-out/create', [FuelTransactionController::class, 'create_fuel_out'])->name('fuel-out.create');
     Route::post('/fuel-out', [FuelTransactionController::class, 'store_fuel_out'])->name('fuel-out.store');
+    Route::post('/reverse-fuel-out', [FuelTransactionController::class, 'reverse_fuel_out'])->name('fuel-out.reverse');
    
 });
 
@@ -115,4 +119,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/lub-out/create', [LubTransactionController::class, 'create_lub_out'])->name('lub-out.create');
     Route::post('/lub-out', [LubTransactionController::class, 'store_lub_out'])->name('lub-out.store');
    
+});
+
+//Chemical
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chemicals', [ChemicalController::class, 'index'])->name('chemicals.index');
+    Route::get('/chemicals/create', [ChemicalController::class, 'create'])->name('chemicals.create');
+    Route::post('/chemicals', [ChemicalController::class, 'store'])->name('chemicals.store');
+    Route::get('/chemicals/{chemical}/edit', [ChemicalController::class, 'edit'])->name('chemicals.edit');
+    Route::put('/chemicals/{chemical}', [ChemicalController::class, 'update'])->name('chemicals.update');
 });

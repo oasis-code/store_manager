@@ -20,6 +20,7 @@
             <form method="post" action="{{ route('loggedin') }}">
                 @csrf
                 
+                
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="User name" id="email" name="email"
                     value="{{ old('email') }}" required>

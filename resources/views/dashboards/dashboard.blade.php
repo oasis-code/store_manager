@@ -23,7 +23,7 @@
       <i class="fas fa-gas-pump"></i>
 
       </div>
-      <a href="{{ route('dashboard.fuel') }}" class="small-box-footer">Go to Dashboard <i class="fas fa-arrow-circle-right"></i></a>
+      <a href="{{ route('fuel-out.report-sum') }}" class="small-box-footer">Go to Fuel Module <i class="fas fa-arrow-circle-right"></i></a>
     </div>
   </div>
   <!-- ./col -->
@@ -41,7 +41,7 @@
       <i class="fas fa-flask"></i>
 
       </div>
-      <a href="#" class="small-box-footer">Go to dashboard <i class="fas fa-arrow-circle-right"></i></a>
+      <a href="{{ route('chemicals.index') }}" class="small-box-footer">Go to dashboard <i class="fas fa-arrow-circle-right"></i></a>
     </div>
   </div>
   <!-- ./col -->

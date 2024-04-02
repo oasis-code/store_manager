@@ -13,7 +13,7 @@
                   data-accordion="false">
                   
                   <li class="nav-item">
-                      <a href="{{ route('dashboard.fuel') }}" class="nav-link">
+                      <a href="{{ route('fuel-out.report-sum') }}" class="nav-link">
                           <h5 class="text-success"><b>
                                  Fuel and Lubricants
                               </b></h5>
@@ -82,6 +82,12 @@
                             <a href="{{ route('fuel-out.report') }}" class="nav-link">
                               <i class="far fa-circle nav-icon"></i>
                               <p>Fuel Out Report</p>
+                            </a>
+                          </li> 
+                          <li class="nav-item">
+                            <a href="{{ route('fuel-out.report-sum') }}" class="nav-link">
+                              <i class="far fa-circle nav-icon"></i>
+                              <p>Fuel Summary Report</p>
                             </a>
                           </li> 
                           <li class="nav-item">

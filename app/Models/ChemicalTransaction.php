@@ -2,19 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\People;
+use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class FuelTransaction extends Model
+class ChemicalTransaction extends Model
 {
     use HasFactory;
-    
     protected $fillable = [
         'vehicle_id',
         'person_id',
         'user_id',
+        'chemical_id',
+        'delivery_note_no',
+        'internal_delivery_no',
+        'no_of_packs',
+        'receipt_no',
+        'destination',
         'type',
-        'quantity',
         'date',
         'reverses',
         'is_reversed',
@@ -36,5 +43,10 @@ class FuelTransaction extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function chemical()
+    {
+        return $this->belongsTo(Chemical::class);
     }
 }

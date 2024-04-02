@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Fuel Out Report ')
-@section('page_title', 'Fuel Out Report')
+@section('title', 'lub Out Report ')
+@section('page_title', 'lub Out Report')
 
 @section('bread_crumb')
     <ol class="breadcrumb float-sm-right">
@@ -10,33 +10,32 @@
 @endsection
 
 @section('main_content')
-
     <!-- filter -->
     <div class="col-sm-12">
         <div class="card card-success card-outline elevation-3">
             <!-- /.card-header -->
             <div class="card-body pb-0">
-                <form action="{{ route('fuel-out.report') }}" method="get">
+                <form action="{{ route('lub-out.report') }}" method="get">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Filter by Category</label>
+                                        <label>Filter by Lubricant</label>
                                         <div class="input-group ">
-                                            <select class="form-control select2" id="category_id" name="category_id">
-                                                <option value="">--All Categories</option>
-                                                @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <select class="form-control select2" id="lub_id" name="lub_id">
+                                                <option value="">--All Lubs</option>
+                                                @foreach ($lubs as $lub)
+                                                    <option value="{{ $lub->id }}">{{ $lub->type }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('category_id')
+                                            @error('lub_id')
                                                 <div class="text-sm text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                {{-- <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Filter by Vehicle</label>
                                         <div class="input-group ">
@@ -53,9 +52,9 @@
                                             @enderror
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>From:</label>
                                         <div class="input-group date" id="reservationdate" data-target-input="nearest">
@@ -68,7 +67,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>To:</label>
                                         <div class="input-group date" id="reservationdate1" data-target-input="nearest">
@@ -99,8 +98,8 @@
 
     <div class="col-sm-12">
         <div class="card card-success card-outline">
-            <div class="card-header">                
-                <h4 class="card-title text-success">Total Fuel Balance: <b>{{ $fuelbal = number_format($balance, 1, '.', ',') }} Litres</b> in stock</h4>
+            <div class="card-header">               
+                {{-- <h4 class="card-title text-success">Total lub Balance: <b>{{ $lubbal = number_format($balance, 1, '.', ',') }} Litres</b> in stock</h4> --}}
 
             </div>
 
@@ -110,8 +109,9 @@
                         <tr>
                             <th>Id</th>
                             <th>Date</th>
+                            <th>Type</th>
                             <th>Vehicle Number</th>
-                            <th>Operator</th>
+                            <th>Driver</th>
                             <th>Authorized by</th>
                             <th>Quantity (litres)</th>
                             <th>Total</th>
@@ -127,6 +127,7 @@
                                 <tr class="text-nowrap">
                                     <td>{{ $transaction->id }}</td>
                                     <td>{{ $transaction->date }}</td>
+                                    <td>{{ $transaction->lub->type }}</td>
                                     <td>{{ strtoupper(substr($transaction->vehicle->category->name, 0, 1)) }}/{{ $transaction->vehicle->model }}/{{ $transaction->vehicle->number_plate }}
                                     </td>
                                     <td>{{ $transaction->person->name }}</td>
@@ -145,7 +146,13 @@
                             </tr>
                         @endunless
                     </tbody>
-                    
+                    <tfoot>
+                        <tr class="text-nowrap">
+                            {{-- <td colspan="7" rowspan="1">Total lub Balance is: <b><span class="count-up"
+                                data-value="{{ $balance }}">0</span> Litres</b> in stock</td> --}}
+                           
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
 

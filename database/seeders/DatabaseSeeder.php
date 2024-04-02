@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Fuel;
+use App\Models\Lub;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -31,6 +32,11 @@ class DatabaseSeeder extends Seeder
 
         Fuel::create([             
             'type' => 'Diesel',           
+            'balance' => '0.00',      
+        ]);
+
+        Lub::create([             
+            'type' => 'Oil',           
             'balance' => '0.00',      
         ]);
     }
