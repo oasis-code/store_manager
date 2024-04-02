@@ -14,9 +14,9 @@ class LubController extends Controller
          $lubs = Lub::all();
          //dd($lubs);
          $user = Auth::user();
-         if($user->role == 'Store Keeper'){
-             return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
-         }
+        //  if($user->role == 'Store Keeper'){
+        //      return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+        //  }
          return view('lubricants.index', compact('lubs', 'user'));
      }
  
@@ -25,9 +25,9 @@ class LubController extends Controller
      {
          // Retrieve the authenticated user
          $user = Auth::user();
-         if($user->role == 'Store Keeper'){
-             return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
-         }
+        //  if($user->role == 'Store Keeper'){
+        //      return redirect()->route('dashboard.fuel')->with('error', 'You do not have permission to access this resource!.');
+        //  }
          return view('lubricants.create', compact('user'));
      }
  

@@ -48,10 +48,10 @@
                                     <td><b>{{ number_format($transaction->quantity, 1, '.', ',') }}</b></td>
                                     <td>
 
-                                        @if ($transaction->is_reversed)
-                                            Reversed by #{{ $transaction->reversed_by }} : {{ $transaction->reversal_reason }}
-                                        @elseif($transaction->reverses)
-                                            Reverses #{{ $transaction->reverses }}
+                                        @if ($transaction->reverses)
+                                        Reverses #{{ $transaction->reverses }}
+                                        @elseif($transaction->is_reversed)
+                                        Reversed by #{{ $transaction->reversed_by }} : {{ $transaction->reversal_reason }}                                           
                                         @else
                                             <button name="submit" type="submit" class="btn btn-sm btn-danger p-1"
                                                 data-toggle="modal"

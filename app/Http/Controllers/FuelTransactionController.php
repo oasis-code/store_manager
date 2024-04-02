@@ -16,7 +16,7 @@ class FuelTransactionController extends Controller
     //fuelin
     public function index_fuel_in()
     {
-        $transactions = FuelTransaction::where('type', 'In')->orderBy('created_at', 'desc')->paginate(25);
+        $transactions = FuelTransaction::where('type', 'In')->orderBy('created_at', 'desc')->paginate(10);
         $user = Auth::user();
         $fuel = Fuel::where('type', 'Diesel')->first();
         $balance = $fuel->balance;
@@ -238,6 +238,7 @@ class FuelTransactionController extends Controller
         // Fetch fuel transactions with related vehicle and category
         $fuelTransactions = FuelTransaction::with('vehicle.category')
             ->where('type', 'Out')
+            ->where('is_reversed', false)
             ->whereYear('date', $year)
             ->get();
 

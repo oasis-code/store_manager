@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChemicalController;
 use App\Http\Controllers\FuelTransactionController;
 use App\Http\Controllers\LubTransactionController;
 use App\Http\Controllers\LubController;
@@ -118,4 +119,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/lub-out/create', [LubTransactionController::class, 'create_lub_out'])->name('lub-out.create');
     Route::post('/lub-out', [LubTransactionController::class, 'store_lub_out'])->name('lub-out.store');
    
+});
+
+//Chemical
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chemicals', [ChemicalController::class, 'index'])->name('chemicals.index');
+    Route::get('/chemicals/create', [ChemicalController::class, 'create'])->name('chemicals.create');
+    Route::post('/chemicals', [ChemicalController::class, 'store'])->name('chemicals.store');
+    Route::get('/chemicals/{chemical}/edit', [ChemicalController::class, 'edit'])->name('chemicals.edit');
+    Route::put('/chemicals/{chemical}', [ChemicalController::class, 'update'])->name('chemicals.update');
 });
