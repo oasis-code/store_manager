@@ -51,13 +51,13 @@
       <div class="inner">
         <!-- <h3 class="text-success">53</h3> -->
 
-        <p>fertilizer</p>
+        <p>fertilizers</p>
       </div>
       <div class="icon">
       <i class="fas fa-seedling"></i>
 
       </div>
-      <a href="#" class="small-box-footer">Go to dashboard <i class="fas fa-arrow-circle-right"></i></a>
+      <a href="{{ route('fertilisers.index') }}" class="small-box-footer">Go to dashboard <i class="fas fa-arrow-circle-right"></i></a>
     </div>
   </div>
   <!-- ./col -->
