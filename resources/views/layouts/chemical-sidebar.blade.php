@@ -21,7 +21,7 @@
                     <hr class="p-0 m-0">
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('fuel-in.index') }}" class="nav-link">
+                    <a href="{{ route('chemical-in.index') }}" class="nav-link">
                         <i class="fas fa-plus"></i>
                         <p>
                             Chemical In
@@ -29,7 +29,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('fuel-out.index') }}" class="nav-link">
+                    <a href="{{ route('chemical-out.index') }}" class="nav-link">
                         <i class="fas fa-minus"></i>
                         <p>
                             Chemical Out
@@ -38,7 +38,7 @@
                 </li>
               
                 <li class="nav-item">
-                    <a href="fuel_report.php" class="nav-link">
+                    <a href="chemical_report.php" class="nav-link">
                         <i class="fas fa-chart-bar"></i>
                         <p>
                           Reports
@@ -47,35 +47,19 @@
                     </a>
                     <ul class="nav nav-treeview">
                       <li class="nav-item">
-                          <a href="{{ route('fuel-in.report') }}" class="nav-link">
+                          <a href="{{ route('chemical-in.report') }}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Fuel In Report</p>
+                            <p>chemical In Report</p>
                           </a>
                         </li>              
                         <li class="nav-item">
-                          <a href="{{ route('fuel-out.report') }}" class="nav-link">
+                          <a href="{{ route('chemical-out.report') }}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Fuel Out Report</p>
+                            <p>chemical Out Report</p>
                           </a>
                         </li> 
-                        <li class="nav-item">
-                          <a href="{{ route('fuel-out.report-sum') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Fuel Summary Report</p>
-                          </a>
-                        </li> 
-                        <li class="nav-item">
-                          <a href="{{ route('lub-in.report') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>lubs in Report</p>
-                          </a>
-                        </li>     
-                        <li class="nav-item">
-                          <a href="{{ route('lub-out.report') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>lubs Out Report</p>
-                          </a>
-                        </li> 
+                        
+                        
                                                
                       </ul>
                 </li>

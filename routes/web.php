@@ -1,16 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LubController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChemicalController;
+use App\Http\Controllers\LubTransactionController;
 use App\Http\Controllers\FuelTransactionController;
 use App\Http\Controllers\LubTransactionController;
 use App\Http\Controllers\LubController;
-use App\Http\Controllers\FertiliserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -129,12 +130,4 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/chemicals', [ChemicalController::class, 'store'])->name('chemicals.store');
     Route::get('/chemicals/{chemical}/edit', [ChemicalController::class, 'edit'])->name('chemicals.edit');
     Route::put('/chemicals/{chemical}', [ChemicalController::class, 'update'])->name('chemicals.update');
-});
-//Fertiliser
-Route::middleware(['auth'])->group(function () {
-    Route::get('/fertilisers', [FertiliserController::class, 'index'])->name('fertilisers.index');
-    Route::get('/fertilisers/create', [FertiliserController::class, 'create'])->name('fertilisers.create');
-    Route::post('/fertilisers', [FertiliserController::class, 'store'])->name('fertilisers.store');
-    Route::get('/fertilisers/{fertiliser}/edit', [FertiliserController::class, 'edit'])->name('fertilisers.edit');
-    Route::put('/fertilisers/{fertiliser}', [FertiliserController::class, 'update'])->name('fertilisers.update');
 });

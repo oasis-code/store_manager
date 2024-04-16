@@ -195,7 +195,7 @@
     "responsive": false,
     "lengthChange": false,
     "ordering": false,
-    "searching": false,    
+    "searching": true,    
     "info": false,
     "paging": false,
     "autoWidth": false,

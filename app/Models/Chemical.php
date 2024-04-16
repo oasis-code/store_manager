@@ -19,4 +19,6 @@ class Chemical extends Model
         'unit_price',
         'balance',
     ];
+
+    
 }
