@@ -11,7 +11,7 @@ class FertiliserController extends Controller
     public function index()
     {
        
-        $fertilisers = Fertiliser::all();
+        $fertilisers = Fertiliser::all(); 
         //dd($fertilisers);
         $user = Auth::user();
         return view('fertilisers.index', compact('fertilisers', 'user'));
@@ -27,7 +27,7 @@ class FertiliserController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the input data
+        // Validate the input data from
         $validatedData = $request->validate([            
             'name' => 'required|max:255', 
             'code' => 'nullable|max:255', 
