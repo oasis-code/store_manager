@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app3')
 
 @section('title', 'Edit Chemical | NASECO')
 @section('page_title', 'Edit Chemical')

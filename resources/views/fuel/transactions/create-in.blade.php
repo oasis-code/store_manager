@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <label for="quantity">Quantity of fuel *</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="quantity"
+                            <input type="text" class="form-control" id="quantity"
                                 name="quantity" value="{{ old('quantity') }}" required>
                             <div class="input-group-append">
                                 <span class="input-group-text">Litres</span>

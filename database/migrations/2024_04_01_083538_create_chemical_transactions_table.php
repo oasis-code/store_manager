@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chemicals_transactions', function (Blueprint $table) {
+        Schema::create('chemical_transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('vehicle_id')->nullable();
             $table->foreign('vehicle_id')->references('id')->on('vehicles');
@@ -21,12 +21,12 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('chemical_id')->nullable();
             $table->foreign('chemical_id')->references('id')->on('chemicals');
-            $table->string('delivery_note_no');
-            $table->string('internal_delivery_no');
-            $table->string('no_of_packs');
-            $table->string('receipt_no');
-            $table->string('destination');
-            $table->string('type');
+            $table->string('delivery_note_no')->nullable();
+            $table->string('internal_delivery_no')->nullable();
+            $table->string('no_of_packs')->nullable();
+            $table->string('receipt_no')->nullable();
+            $table->string('destination')->nullable();
+            $table->string('type')->nullable();
             $table->date('date');
             $table->timestamps();
         });
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chemicals_transactions');
+        Schema::dropIfExists('chemical_transactions');
     }
 };

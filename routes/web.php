@@ -1,15 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LubController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChemicalController;
-use App\Http\Controllers\FuelTransactionController;
 use App\Http\Controllers\LubTransactionController;
-use App\Http\Controllers\LubController;
+use App\Http\Controllers\FuelTransactionController;
+use App\Http\Controllers\ChemicalTransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -128,4 +129,19 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/chemicals', [ChemicalController::class, 'store'])->name('chemicals.store');
     Route::get('/chemicals/{chemical}/edit', [ChemicalController::class, 'edit'])->name('chemicals.edit');
     Route::put('/chemicals/{chemical}', [ChemicalController::class, 'update'])->name('chemicals.update');
+});
+
+//Chemical trasaction
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chemical-in', [ChemicalTransactionController::class, 'index_chemical_in'])->name('chemical-in.index');
+    Route::get('/chemical-in-report', [ChemicalTransactionController::class, 'report_chemical_in'])->name('chemical-in.report');
+    Route::get('/chemical-in/create', [ChemicalTransactionController::class, 'create_chemical_in'])->name('chemical-in.create');
+    Route::post('/chemical-in', [ChemicalTransactionController::class, 'store_chemical_in'])->name('chemical-in.store');
+    Route::post('/reverse-chemical-in', [ChemicalTransactionController::class, 'reverse_chemical_in'])->name('chemical-in.reverse');
+    Route::get('/chemical-out', [ChemicalTransactionController::class, 'index_chemical_out'])->name('chemical-out.index');
+    Route::get('/chemical-out-report', [ChemicalTransactionController::class, 'report_chemical_out'])->name('chemical-out.report');
+    Route::get('/chemical-out/create', [ChemicalTransactionController::class, 'create_chemical_out'])->name('chemical-out.create');
+    Route::post('/chemical-out', [ChemicalTransactionController::class, 'store_chemical_out'])->name('chemical-out.store');
+    Route::post('/reverse-chemical-out', [ChemicalTransactionController::class, 'reverse_chemical_out'])->name('chemical-out.reverse');
+   
 });
