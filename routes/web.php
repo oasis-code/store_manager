@@ -8,10 +8,11 @@ use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChemicalController;
+use App\Http\Controllers\ChemicalTransactionController;
 use App\Http\Controllers\LubTransactionController;
 use App\Http\Controllers\FuelTransactionController;
-use App\Http\Controllers\LubTransactionController;
-use App\Http\Controllers\LubController;
+use App\Http\Controllers\FertiliserController;
+use App\Http\Controllers\FertiliserTransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,7 +111,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/lubs/{lub}', [LubController::class, 'update'])->name('lubs.update');
 });
 
-//lub in
+//lub Transaction
 Route::middleware(['auth'])->group(function () {
     Route::get('/lub-in', [LubTransactionController::class, 'index_lub_in'])->name('lub-in.index');
     Route::get('/lub-in-report', [LubTransactionController::class, 'report_lub_in'])->name('lub-in.report');
@@ -123,6 +124,7 @@ Route::middleware(['auth'])->group(function () {
    
 });
 
+
 //Chemical
 Route::middleware(['auth'])->group(function () {
     Route::get('/chemicals', [ChemicalController::class, 'index'])->name('chemicals.index');
@@ -130,4 +132,37 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/chemicals', [ChemicalController::class, 'store'])->name('chemicals.store');
     Route::get('/chemicals/{chemical}/edit', [ChemicalController::class, 'edit'])->name('chemicals.edit');
     Route::put('/chemicals/{chemical}', [ChemicalController::class, 'update'])->name('chemicals.update');
+});
+
+//Chemical Transaction
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chemical-in', [ChemicalTransactionController::class, 'index_chemical_in'])->name('chemical-in.index');
+    Route::get('/chemical-in-report', [ChemicalTransactionController::class, 'report_chemical_in'])->name('chemical-in.report');
+    Route::get('/chemical-in/create', [ChemicalTransactionController::class, 'create_chemical_in'])->name('chemical-in.create');
+    Route::post('/chemical-in', [ChemicalTransactionController::class, 'store_chemical_in'])->name('chemical-in.store');
+    Route::get('/chemical-out', [ChemicalTransactionController::class, 'index_chemical_out'])->name('chemical-out.index');
+    Route::get('/chemical-out-report', [ChemicalTransactionController::class, 'report_chemical_out'])->name('chemical-out.report');
+    Route::get('/chemical-out/create', [ChemicalTransactionController::class, 'create_chemical_out'])->name('chemical-out.create');
+    Route::post('/chemical-out', [ChemicalTransactionController::class, 'store_chemical_out'])->name('chemical-out.store');   
+});
+
+//Fertiliser
+Route::middleware(['auth'])->group(function () {
+    Route::get('/fertilisers', [FertiliserController::class, 'index'])->name('fertilisers.index');
+    Route::get('/fertilisers/create', [FertiliserController::class, 'create'])->name('fertilisers.create');
+    Route::post('/fertilisers', [FertiliserController::class, 'store'])->name('fertilisers.store');
+    Route::get('/fertilisers/{fertiliser}/edit', [FertiliserController::class, 'edit'])->name('fertilisers.edit');
+    Route::put('/fertilisers/{fertiliser}', [FertiliserController::class, 'update'])->name('fertilisers.update');
+});
+
+//Feriliser Transaction
+Route::middleware(['auth'])->group(function () {
+    Route::get('/fertiliser-in', [FertiliserTransactionController::class, 'index_fertiliser_in'])->name('fertiliser-in.index');
+    Route::get('/fertiliser-in-report', [FertiliserTransactionController::class, 'report_fertiliser_in'])->name('fertiliser-in.report');
+    Route::get('/fertiliser-in/create', [FertiliserTransactionController::class, 'create_fertiliser_in'])->name('fertiliser-in.create');
+    Route::post('/fertiliser-in', [FertiliserTransactionController::class, 'store_fertiliser_in'])->name('fertiliser-in.store');
+    Route::get('/fertiliser-out', [FertiliserTransactionController::class, 'index_fertiliser_out'])->name('fertiliser-out.index');
+    Route::get('/fertiliser-out-report', [FertiliserTransactionController::class, 'report_fertiliser_out'])->name('fertiliser-out.report');
+    Route::get('/fertiliser-out/create', [FertiliserTransactionController::class, 'create_fertiliser_out'])->name('fertiliser-out.create');
+    Route::post('/fertiliser-out', [FertiliserTransactionController::class, 'store_fertiliser_out'])->name('fertiliser-out.store');   
 });

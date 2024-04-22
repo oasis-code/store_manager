@@ -83,7 +83,7 @@
                     </div>     
                     <div class="form-group">
                         <label for="quantity_per_pack">Quantity per pack *</label>
-                        <input type="number" class="form-control" id="quantity_per_pack" name="quantity_per_pack" value="{{ old('quantity_per_pack') }}"
+                        <input type="text" class="form-control" id="quantity_per_pack" name="quantity_per_pack" value="{{ old('quantity_per_pack') }}"
                              required>
                         @error('quantity_per_pack')
                             <div class="text-sm text-danger">{{ $message }}</div>
@@ -91,7 +91,7 @@
                     </div> 
                     <div class="form-group">
                         <label for="rate">Rate *</label>
-                        <input type="number" class="form-control" id="rate" name="rate" value="{{ old('rate') }}"
+                        <input type="text" class="form-control" id="rate" name="rate" value="{{ old('rate') }}"
                              required>
                         @error('rate')
                             <div class="text-sm text-danger">{{ $message }}</div>
@@ -99,7 +99,7 @@
                     </div> 
                     <div class="form-group">
                         <label for="unit_price">Unit Price *</label>
-                        <input type="number" class="form-control" id="unit_price" name="unit_price" value="{{ old('unit_price') }}"
+                        <input type="text" class="form-control" id="unit_price" name="unit_price" value="{{ old('unit_price') }}"
                              required>
                         @error('unit_price')
                             <div class="text-sm text-danger">{{ $message }}</div>

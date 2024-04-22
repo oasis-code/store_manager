@@ -2,38 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\People;
+use App\Models\Vehicle;
+use App\Models\Fertiliser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\FertiliserTransaction;
+use App\Models\VehicleCategory;
+use Illuminate\Support\Facades\Auth;
 
 class FertiliserTransactionController extends Controller
 {
-    //
     //fertiliserin
     public function index_fertiliser_in()
     {
         $transactions = FertiliserTransaction::where('type', 'In')->orderBy('created_at', 'desc')->paginate(25);
         $user = Auth::user();
-        return view('fertiliser.transactions.index-in', compact('transactions', 'user'));
+        return view('fertilisers.transactions.index-in', compact('transactions', 'user'));
     }
 
 
     public function report_fertiliser_in(Request $request)
     {
-        $categories = VehicleCategory::all();
-        $vehicles = Vehicle::all();
+        $fertilisers = Fertiliser::all();
         $user = Auth::user();
 
         $query = FertiliserTransaction::query();
 
-        // Apply filters
-        if ($request->filled('category_id')) {
-            $query->whereHas('vehicle.category', function ($query) use ($request) {
-                $query->where('id', $request->input('category_id'));
-            });
+        
+
+        if ($request->filled('fertiliser_id')) {
+            $query->where('fertiliser_id', $request->input('fertiliser_id'));
         }
 
-        if ($request->filled('vehicle_id')) {
-            $query->where('vehicle_id', $request->input('vehicle_id'));
-        }
 
         if ($request->filled('from_date')) {
             $query->where('date', '>=', $request->input('from_date'));
@@ -45,35 +46,35 @@ class FertiliserTransactionController extends Controller
 
         $transactions = $query->where('type', 'In')
             ->where('is_reversed', false)
-            ->orderBy('created_at', 'asc')
+            ->orderBy('created_at', 'desc')
             ->paginate(50);
 
-        $fuel = Fuel::where('type', 'Diesel')->first();
-        $balance = $fuel->balance;
-        return view('fuel.transactions.report-in', compact('transactions', 'user', 'balance', 'categories', 'vehicles'));
+        return view('fertilisers.transactions.report-in', compact('transactions', 'user', 'fertilisers'));
     }
 
-    public function create_fuel_in()
+    public function create_fertiliser_in()
     {
         // Retrieve the authenticated user
         $user = Auth::user();
         $vehicles = Vehicle::all();
-        $drivers = People::where('role', 'Driver')->get();
-        return view('fuel.transactions.create-in', compact('user', 'vehicles', 'drivers'));
+        $fertilisers = Fertiliser::all();
+        return view('fertilisers.transactions.create-in', compact('user', 'vehicles', 'fertilisers'));
     }
 
 
-    public function store_fuel_in(Request $request)
+    public function store_fertiliser_in(Request $request)
     {
         // Validate the input data
         $validatedData = $request->validate([
 
             'type' => 'required|max:255',
             'date' => 'required|date',
-            'quantity' => 'required|numeric|min:0',
+            'no_of_packs' => 'required|numeric|min:0',
+            'delivery_note_no' => 'required|max:255',
+            'internal_delivery_no' => 'required|max:255',
             'user_id' => 'required|exists:users,id',
             'vehicle_id' => 'required|exists:vehicles,id',
-            'person_id' => 'required|exists:people,id',
+            'fertiliser_id' => 'required|exists:fertilisers,id',
         ]);
 
 
@@ -88,16 +89,16 @@ class FertiliserTransactionController extends Controller
             $transaction->save();
 
 
-            $fuel = Fuel::where('type', 'Diesel')->first();
-            $fuel->balance += $request->quantity;
-            $fuel->save();
+            $fertiliser = Fertiliser::find($request->fertiliser_id);
+            $fertiliser->balance += $request->no_of_packs;
+            $fertiliser->save();
 
 
 
             // Commit the database transaction
             DB::commit();
 
-            return redirect()->route('fuel-in.index')->with('success', 'Transaction Added successfully.');
+            return redirect()->route('fertiliser-in.index')->with('success', 'Transaction Added successfully.');
         } catch (\Exception $e) {
             // If an exception occurs, rollback the database transaction
             DB::rollback();
@@ -106,8 +107,8 @@ class FertiliserTransactionController extends Controller
         }
     }
 
-    //reverse fuelin
-    public function reverse_fuel_in(Request $request)
+    //reverse fertiliserin
+    public function reverse_fertiliser_in(Request $request)
     {
 
         try {
@@ -122,11 +123,11 @@ class FertiliserTransactionController extends Controller
                 return back()->with('error', 'Transaction is already reversed.');
             }
 
-            // Check if there is enough fuel in store
-            $fuel = Fuel::where('type', 'Diesel')->first();
-            if ($fuel->balance < $transaction->quantity) {
+            // Check if there is enough fertiliser in store
+            $fertiliser = Fertiliser::find($request->fertiliser_id);
+            if ($fertiliser->balance < $transaction->no_of_packs) {
                 DB::rollback();
-                return back()->withInput()->with('error', 'Insufficient fuel in the store to cover this transaction!.');
+                return back()->withInput()->with('error', 'Insufficient fertiliser in the store to cover this transaction!.');
             }
 
             // Create a new reverse transaction
@@ -134,14 +135,16 @@ class FertiliserTransactionController extends Controller
             $reverseTransaction->fill([
                 'type' => $transaction->type,
                 'date' => $transaction->date,
-                'quantity' => $transaction->quantity,
+                'delivery_note_no' => $transaction->delivery_note_no,
+                'internal_delivery_no' => $transaction->internal_delivery_no,
+                'fertiliser_id' => $transaction->fertiliser_id,
+                'no_of_packs' => $transaction->no_of_packs,
                 'user_id' => $transaction->user_id,
                 'vehicle_id' => $transaction->vehicle_id,
-                'person_id' => $transaction->person_id,
                 'reverses' => $transaction->id,
                 'is_reversed' => true,
             ]);
-           // dd($reverseTransaction);
+            // dd($reverseTransaction);
             $reverseTransaction->save();
 
             // Reverse the transaction and mark it as reversed
@@ -151,14 +154,14 @@ class FertiliserTransactionController extends Controller
             $transaction->save();
 
 
-            $fuel = Fuel::where('type', 'Diesel')->first();
-            $fuel->balance -= $transaction->quantity;
-            $fuel->save();
+            $fertiliser = Fertiliser::find($transaction->fertiliser_id);
+            $fertiliser->balance -= $transaction->no_of_packs;
+            $fertiliser->save();
 
             // Commit the database transaction
             DB::commit();
 
-            return redirect()->route('fuel-in.index')->with('success', 'Transaction Reversed successfully.');
+            return redirect()->route('fertiliser-in.index')->with('success', 'Transaction Reversed successfully.');
         } catch (\Exception $e) {
             // If an exception occurs, rollback the database transaction
             DB::rollback();
@@ -168,18 +171,16 @@ class FertiliserTransactionController extends Controller
     }
 
 
-    //fuelOUT
-    public function index_fuel_out()
+    //fertiliserOUT
+    public function index_fertiliser_out()
     {
         $transactions = FertiliserTransaction::where('type', 'Out')->orderBy('created_at', 'desc')->paginate(25);
         $user = Auth::user();
-        $fuel = Fuel::where('type', 'Diesel')->first();
-        $balance = $fuel->balance;
-        return view('fuel.transactions.index-out', compact('transactions', 'user', 'balance'));
+        return view('Fertilisers.transactions.index-out', compact('transactions', 'user'));
     }
 
 
-    public function report_fuel_out(Request $request)
+    public function report_fertiliser_out(Request $request)
     {
         $categories = VehicleCategory::all();
         $vehicles = Vehicle::all();
@@ -211,12 +212,12 @@ class FertiliserTransactionController extends Controller
             ->orderBy('created_at', 'asc')
             ->paginate(50);
 
-        $fuel = Fuel::where('type', 'Diesel')->first();
-        $balance = $fuel->balance;
-        return view('fuel.transactions.report-out', compact('transactions', 'user', 'balance', 'categories', 'vehicles'));
+            $fertiliser = Fertiliser::all();
+        $balance = $fertiliser->balance;
+        return view('fertiliser.transactions.report-out', compact('transactions', 'user', 'balance', 'categories', 'vehicles'));
     }
 
-    public function report_fuel_out_sum(Request $request)
+    public function report_fertiliser_out_sum(Request $request)
     {
 
         $user = Auth::user();
@@ -227,7 +228,7 @@ class FertiliserTransactionController extends Controller
             $year = date('Y');
         }
 
-        // Fetch fuel transactions with related vehicle and category
+        // Fetch fertiliser transactions with related vehicle and category
         $FertiliserTransactions = FertiliserTransaction::with('vehicle.category')
             ->where('type', 'Out')
             ->where('is_reversed', false)
@@ -243,8 +244,8 @@ class FertiliserTransactionController extends Controller
             $yearsArray[] = $y;
         }
 
-        // Iterate over fuel transactions to calculate totals per category and vehicle
-        foreach ($fuelTransactions as $transaction) {
+        // Iterate over fertiliser transactions to calculate totals per category and vehicle
+        foreach ($fertiliserTransactions as $transaction) {
             $categoryName = $transaction->vehicle->category->name;
             $vehicleName = strtoupper(substr($transaction->vehicle->category->name, 0, 1)) . '/' . $transaction->vehicle->model . '/' . $transaction->vehicle->number_plate;
             $month = date('M', strtotime($transaction->date));
@@ -258,60 +259,60 @@ class FertiliserTransactionController extends Controller
 
 
 
-        return view('fuel.transactions.report-out-sum', compact('summaryData', 'user', 'year', 'yearsArray'));
+        return view('fertilisers.transactions.report-out-sum', compact('summaryData', 'user', 'year', 'yearsArray'));
     }
 
 
 
-    public function create_fuel_out()
+    public function create_fertiliser_out()
     {
         // Retrieve the authenticated user
         $user = Auth::user();
-        $vehicles = Vehicle::all();
         $operators = People::where('role', 'Operator')->get();
-        return view('fuel.transactions.create-out', compact('user', 'vehicles', 'operators'));
+        $fertilisers = Fertiliser::all();
+        return view('fertilisers.transactions.create-out', compact('user', 'fertilisers', 'operators'));
     }
 
-
-    public function store_fuel_out(Request $request)
+    public function store_fertiliser_out(Request $request)
     {
         // Validate the input data
         $validatedData = $request->validate([
 
             'type' => 'required|max:255',
             'date' => 'required|date',
-            'quantity' => 'required|numeric|min:0',
+            'no_of_packs' => 'required|numeric|min:0',
+            'receipt_no' => 'required|max:255',
+            'destination' => 'required|max:255',
             'user_id' => 'required|exists:users,id',
-            'vehicle_id' => 'required|exists:vehicles,id',
             'person_id' => 'required|exists:people,id',
+            'fertiliser_id' => 'required|exists:fertilisers,id',
         ]);
+
 
         try {
             // Start a database transaction
             DB::beginTransaction();
 
-            // Check if there is enough fuel in store
-            $fuel = Fuel::where('type', 'Diesel')->first();
-            if ($fuel->balance < $request->quantity) {
-                DB::rollback();
-                return back()->withInput()->with('error', 'Insufficient fuel in the store to cover this transaction!.');
-            }
-
+             // Check if there is enough fertiliser in store
+             $fertiliser = Fertiliser::find($request->fertiliser_id);
+             if ($fertiliser->balance < $request->no_of_packs) {
+                 DB::rollback();
+                 return back()->withInput()->with('error', 'Insufficient fertiliser in the store to cover this transaction!.');
+             }
 
             // Create a new transaction
-            $transaction = new FuelTransaction();
+            $transaction = new FertiliserTransaction();
             $transaction->fill($validatedData);
             $transaction->save();
 
-            //reduce fuel balance
-            $fuel->balance -= $request->quantity;
-            $fuel->save();
-
+            $fertiliser = Fertiliser::find($request->fertiliser_id);
+            $fertiliser->balance -= $request->no_of_packs;
+            $fertiliser->save();
 
             // Commit the database transaction
             DB::commit();
 
-            return redirect()->route('fuel-out.index')->with('success', 'Transaction Added successfully.');
+            return redirect()->route('fertiliser-out.index')->with('success', 'Transaction Added successfully.');
         } catch (\Exception $e) {
             // If an exception occurs, rollback the database transaction
             DB::rollback();
@@ -320,57 +321,60 @@ class FertiliserTransactionController extends Controller
         }
     }
 
-     //reverse fuelin
-     public function reverse_fuel_out(Request $request)
-     {
- 
-         try {
-             // Start a database transaction
-             DB::beginTransaction();
- 
-             // Find the transaction to reverse
-             $transaction = FuelTransaction::findOrFail($request->transaction_id);
- 
-             // Ensure the transaction is not already reversed
-             if ($transaction->is_reversed) {
-                 return back()->with('error', 'Transaction is already reversed.');
-             }
- 
-             // Create a new reverse transaction
-             $reverseTransaction = new FuelTransaction();
-             $reverseTransaction->fill([
-                 'type' => $transaction->type,
-                 'date' => $transaction->date,
-                 'quantity' => $transaction->quantity,
-                 'user_id' => $transaction->user_id,
-                 'vehicle_id' => $transaction->vehicle_id,
-                 'person_id' => $transaction->person_id,
-                 'reverses' => $transaction->id,
-                 'is_reversed' => true,
-             ]);
+    //reverse fertiliserout
+    public function reverse_fertiliser_out(Request $request)
+    {
+
+        try {
+            // Start a database transaction
+            DB::beginTransaction();
+
+            // Find the transaction to reverse
+            $transaction = FertiliserTransaction::findOrFail($request->transaction_id);
+
+            // Ensure the transaction is not already reversed
+            if ($transaction->is_reversed) {
+                return back()->with('error', 'Transaction is already reversed.');
+            }
+
+            // Create a new reverse transaction
+            $reverseTransaction = new FertiliserTransaction();
+            $reverseTransaction->fill([
+                'type' => $transaction->type,
+                'date' => $transaction->date,
+                'receipt_no' => $transaction->receipt_no,
+                'destination' => $transaction->destination,
+                'fertiliser_id' => $transaction->fertiliser_id,
+                'no_of_packs' => $transaction->no_of_packs,
+                'user_id' => $transaction->user_id,
+                'person_id' => $transaction->person_id,
+                'reverses' => $transaction->id,
+                'is_reversed' => true,
+            ]);
             // dd($reverseTransaction);
-             $reverseTransaction->save();
- 
-             // Reverse the transaction and mark it as reversed
-             $transaction->reversed_by = $reverseTransaction->id;
-             $transaction->is_reversed = true;
-             $transaction->reversal_reason = $request->reversal_reason;
-             $transaction->save();
- 
- 
-             $fuel = Fuel::where('type', 'Diesel')->first();
-             $fuel->balance += $transaction->quantity;
-             $fuel->save();
- 
-             // Commit the database transaction
-             DB::commit();
- 
-             return redirect()->route('fuel-out.index')->with('success', 'Transaction Reversed successfully.');
-         } catch (\Exception $e) {
-             // If an exception occurs, rollback the database transaction
-             DB::rollback();
- 
-             return back()->withInput()->with('error', 'Failed to register the transaction. Please try again.');
-         }
-     }
+            $reverseTransaction->save();
+
+            // Reverse the transaction and mark it as reversed
+            $transaction->reversed_by = $reverseTransaction->id;
+            $transaction->is_reversed = true;
+            $transaction->reversal_reason = $request->reversal_reason;
+            $transaction->save();
+
+
+            $fertiliser = Fertiliser::find($transaction->fertiliser_id);
+            $fertiliser->balance += $transaction->no_of_packs;
+            $fertiliser->save();
+
+            // Commit the database transaction
+            DB::commit();
+
+            return redirect()->route('fertiliser-out.index')->with('success', 'Transaction Reversed successfully.');
+        } catch (\Exception $e) {
+            // If an exception occurs, rollback the database transaction
+            DB::rollback();
+
+            return back()->withInput()->with('error', 'Failed to register the transaction. Please try again.');
+        }
+    }
+    
 }

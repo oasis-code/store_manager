@@ -1,12 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.app4')
 
-@section('title', 'lub Out')
-@section('page_title', 'New lub Out Transaction')
+@section('title', 'fertiliser Out')
+@section('page_title', 'New fertiliser Out Transaction')
 
 @section('bread_crumb')
     <ol class="breadcrumb float-sm-right btn btn-default">
-        <a href={{ route('lub-in.index') }}>
-            <li class="breadcrumb-item btn btn-outline-success btn-sm ">lub Out Transactions</li>
+        <a href={{ route('fertiliser-out.index') }}>
+            <li class="breadcrumb-item btn btn-outline-success btn-sm ">fertiliser Out Transactions</li>
         </a>
     </ol>
 @endsection
@@ -14,84 +14,93 @@
 @section('main_content')
 
     <div class="col-sm-12">
-        <form method="post" action="{{ route('lub-out.store') }}">
+        <form method="post" action="{{ route('fertiliser-out.store') }}">
             @csrf
             <div class="card card-outline card-success pl-5 pr-5">
-                <div class="card-body">   
+                <div class="card-body">
 
                     <div class="form-group">
                         <label for="date">Transaction Date *</label>
                         <div class="input-group date" id="reservationdate1" data-target-input="nearest">
-                            <div class="input-group-prepend" data-target="#reservationdate1"
-                                data-toggle="datetimepicker">
+                            <div class="input-group-prepend" data-target="#reservationdate1" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
-                            <input id="date" name="date" type="text"
-                                class="form-control datetimepicker-input" data-target="#reservationdate1"
-                                value="{{ old('date') }}" placeholder="YYYY-MM-DD" required>
+                            <input id="date" name="date" type="text" class="form-control datetimepicker-input"
+                                data-target="#reservationdate1" value="{{ old('date') }}" placeholder="YYYY-MM-DD"
+                                required>
                         </div>
                         @error('date')
                             <div class="text-sm text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="lub_id">Lubricant Type *</label>
-                        <select class="form-control select2" id="lub_id" name="lub_id" required>
-                            <option value="">--Select type</option>
-                            @foreach ($lubs as $lub)
-                                <option value="{{ $lub->id }}">
-                                    {{ $lub->type }}
+                        <label for="fertiliser_id">fertiliser *</label>
+                        <select class="form-control select2" id="fertiliser_id" name="fertiliser_id" required>
+                            <option value="">--Select fertiliser</option>
+                            @foreach ($fertilisers as $fertiliser)
+                                <option value="{{ $fertiliser->id }}">
+                                    {{ $fertiliser->code }} - {{ $fertiliser->name }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('lub_id')
-                            <div class="text-sm text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>                    
-                    <div class="form-group">
-                        <label for="vehicle_id">Vehicle *</label>
-                        <select class="form-control select2" id="vehicle_id" name="vehicle_id" required>
-                            <option value="">--Select Vehicle</option>
-                            @foreach ($vehicles as $vehicle)
-                                <option value="{{ $vehicle->id }}">{{ strtoupper(substr($vehicle->category->name, 0, 1)) }}/{{ $vehicle->model }}/{{ $vehicle->number_plate }}</option>
-                            @endforeach
-                        </select>
-                        @error('vehicle_id')
+                        @error('fertiliser_id')
                             <div class="text-sm text-danger">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="form-group">
-                        <label for="person_id">Operator *</label>
+                        <label for="person_id">Person *</label>
                         <select class="form-control select2" id="person_id" name="person_id" required>
-                            <option value="">--Select Operator</option>
+                            <option value="">--Select Vehicle</option>
                             @foreach ($operators as $operator)
-                                <option value="{{ $operator->id }}">{{ $operator->name }}</option>
+                                <option value="{{ $operator->id }}">
+                                    {{ $operator->name }}
+                                </option>
                             @endforeach
                         </select>
                         @error('person_id')
                             <div class="text-sm text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                   
+                    
                     <div class="form-group">
-                        <label for="quantity">Quantity of lub *</label>
+                        <label for="destination">Destination *</label>
+                        <select class="form-control select2" id="destination" name="destination" required>
+                            <option value="">--Select Destination</option>
+                            <option value="Factory"> Factory</option>
+                            <option value="Parent Seed">Parent Seed</option>
+                            <option value="Out Grower">Out Grower</option>
+                            <option value="Research">Research</option>
+                            <option value="Others"> Others</option>
+                        </select>
+                        @error('destination')
+                            <div class="text-sm text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="receipt_no">Receipt Number *</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="quantity"
-                                name="quantity" value="{{ old('quantity') }}" required>
-                            <div class="input-group-append">
-                                <span class="input-group-text">Litres</span>
-                            </div>
-                            @error('quantity')
+                            <input type="text" class="form-control" id="receipt_no" name="receipt_no"
+                                value="{{ old('receipt_no') }}" required>
+                            @error('receipt_no')
                                 <div class="text-sm text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
-                    
-                    <input type="text" class="form-control" id="user_id"
-                    name="user_id" value="{{ $user->id }}" hidden>   
-                    <input type="text" class="form-control" id="type"
-                    name="type" value="Out" hidden>       
+                    <div class="form-group">
+                        <label for="no_of_packs">Number of Packs *</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="no_of_packs" name="no_of_packs"
+                                value="{{ old('no_of_packs') }}" required>
+                            @error('no_of_packs')
+                                <div class="text-sm text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <input type="text" class="form-control" id="user_id" name="user_id" value="{{ $user->id }}"
+                        hidden>
+                    <input type="text" class="form-control" id="type" name="type" value="Out" hidden>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">

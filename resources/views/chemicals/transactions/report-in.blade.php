@@ -145,7 +145,7 @@
                     </tbody>
                     <tfoot>
                         <tr class="text-nowrap">
-                            {{-- <td colspan="7" rowspan="1">Total lub Balance is: <b><span class="count-up"
+                            {{-- <td colspan="7" rowspan="1">Total Chemical Balance is: <b><span class="count-up"
                                 data-value="{{ $balance }}">0</span> Litres</b> in stock</td> --}}
 
                         </tr>

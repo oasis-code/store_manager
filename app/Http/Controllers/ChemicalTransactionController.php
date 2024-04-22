@@ -8,6 +8,7 @@ use App\Models\Chemical;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\ChemicalTransaction;
+use App\Models\VehicleCategory;
 use Illuminate\Support\Facades\Auth;
 
 class ChemicalTransactionController extends Controller
@@ -211,12 +212,12 @@ class ChemicalTransactionController extends Controller
             ->orderBy('created_at', 'asc')
             ->paginate(50);
 
-        $fuel = Fuel::where('type', 'Diesel')->first();
-        $balance = $fuel->balance;
-        return view('fuel.transactions.report-out', compact('transactions', 'user', 'balance', 'categories', 'vehicles'));
+            $chemical = Chemical::all();
+        $balance = $chemical->balance;
+        return view('chemical.transactions.report-out', compact('transactions', 'user', 'balance', 'categories', 'vehicles'));
     }
 
-    public function report_fuel_out_sum(Request $request)
+    public function report_chemical_out_sum(Request $request)
     {
 
         $user = Auth::user();
@@ -227,7 +228,7 @@ class ChemicalTransactionController extends Controller
             $year = date('Y');
         }
 
-        // Fetch fuel transactions with related vehicle and category
+        // Fetch chemical transactions with related vehicle and category
         $ChemicalTransactions = ChemicalTransaction::with('vehicle.category')
             ->where('type', 'Out')
             ->where('is_reversed', false)
@@ -243,8 +244,8 @@ class ChemicalTransactionController extends Controller
             $yearsArray[] = $y;
         }
 
-        // Iterate over fuel transactions to calculate totals per category and vehicle
-        foreach ($fuelTransactions as $transaction) {
+        // Iterate over chemical transactions to calculate totals per category and vehicle
+        foreach ($chemicalTransactions as $transaction) {
             $categoryName = $transaction->vehicle->category->name;
             $vehicleName = strtoupper(substr($transaction->vehicle->category->name, 0, 1)) . '/' . $transaction->vehicle->model . '/' . $transaction->vehicle->number_plate;
             $month = date('M', strtotime($transaction->date));
