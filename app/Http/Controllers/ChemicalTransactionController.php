@@ -16,7 +16,10 @@ class ChemicalTransactionController extends Controller
     //chemicalin
     public function index_chemical_in()
     {
-        $transactions = ChemicalTransaction::where('type', 'In')->orderBy('created_at', 'desc')->paginate(25);
+        $transactions = ChemicalTransaction::where('type', 'In')
+        ->orderBy('date', 'desc')
+        ->orderBy('created_at', 'desc')
+        ->paginate(25);
         $user = Auth::user();
         return view('chemicals.transactions.index-in', compact('transactions', 'user'));
     }
@@ -27,14 +30,11 @@ class ChemicalTransactionController extends Controller
         $chemicals = Chemical::all();
         $user = Auth::user();
 
-        $query = ChemicalTransaction::query();
-
-        
+        $query = ChemicalTransaction::query();        
 
         if ($request->filled('chemical_id')) {
             $query->where('chemical_id', $request->input('chemical_id'));
         }
-
 
         if ($request->filled('from_date')) {
             $query->where('date', '>=', $request->input('from_date'));
@@ -44,9 +44,17 @@ class ChemicalTransactionController extends Controller
             $query->where('date', '<=', $request->input('to_date'));
         }
 
+        // Filter by chemical category
+    if ($request->filled('category')) {
+        $category = $request->input('category');
+        $query->join('chemicals', 'chemical_transactions.chemical_id', '=', 'chemicals.id')
+            ->where('chemicals.category', $category);
+    }
+
         $transactions = $query->where('type', 'In')
             ->where('is_reversed', false)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('chemical_transactions.date', 'desc')
+            ->orderBy('chemical_transactions.created_at', 'desc')
             ->paginate(50);
 
         return view('chemicals.transactions.report-in', compact('transactions', 'user', 'chemicals'));
@@ -61,12 +69,10 @@ class ChemicalTransactionController extends Controller
         return view('chemicals.transactions.create-in', compact('user', 'vehicles', 'chemicals'));
     }
 
-
     public function store_chemical_in(Request $request)
     {
         // Validate the input data
         $validatedData = $request->validate([
-
             'type' => 'required|max:255',
             'date' => 'required|date',
             'no_of_packs' => 'required|numeric|min:0',
@@ -77,27 +83,21 @@ class ChemicalTransactionController extends Controller
             'chemical_id' => 'required|exists:chemicals,id',
         ]);
 
-
-
         try {
             // Start a database transaction
             DB::beginTransaction();
-
             // Create a new transaction
             $transaction = new ChemicalTransaction();
             $transaction->fill($validatedData);
+           // dd($transaction);
             $transaction->save();
-
 
             $chemical = Chemical::find($request->chemical_id);
             $chemical->balance += $request->no_of_packs;
             $chemical->save();
 
-
-
             // Commit the database transaction
             DB::commit();
-
             return redirect()->route('chemical-in.index')->with('success', 'Transaction Added successfully.');
         } catch (\Exception $e) {
             // If an exception occurs, rollback the database transaction
@@ -174,7 +174,10 @@ class ChemicalTransactionController extends Controller
     //chemicalOUT
     public function index_chemical_out()
     {
-        $transactions = ChemicalTransaction::where('type', 'Out')->orderBy('created_at', 'desc')->paginate(25);
+        $transactions = ChemicalTransaction::where('type', 'Out')
+        ->orderBy('date', 'desc')
+        ->orderBy('created_at', 'desc')
+        ->paginate(25);
         $user = Auth::user();
         return view('chemicals.transactions.index-out', compact('transactions', 'user'));
     }
@@ -182,21 +185,16 @@ class ChemicalTransactionController extends Controller
 
     public function report_chemical_out(Request $request)
     {
-        $categories = VehicleCategory::all();
-        $vehicles = Vehicle::all();
+        $chemicals = Chemical::all();
         $user = Auth::user();
 
-        $query = ChemicalTransaction::query();
+        $query = ChemicalTransaction::query();        
 
-        // Apply filters
-        if ($request->filled('category_id')) {
-            $query->whereHas('vehicle.category', function ($query) use ($request) {
-                $query->where('id', $request->input('category_id'));
-            });
+        if ($request->filled('chemical_id')) {
+            $query->where('chemical_id', $request->input('chemical_id'));
         }
-
-        if ($request->filled('vehicle_id')) {
-            $query->where('vehicle_id', $request->input('vehicle_id'));
+        if ($request->filled('destination')) {
+            $query->where('destination', $request->input('destination'));
         }
 
         if ($request->filled('from_date')) {
@@ -207,61 +205,21 @@ class ChemicalTransactionController extends Controller
             $query->where('date', '<=', $request->input('to_date'));
         }
 
+        // Filter by chemical category
+    if ($request->filled('category')) {
+        $category = $request->input('category');
+        $query->join('chemicals', 'chemical_transactions.chemical_id', '=', 'chemicals.id')
+            ->where('chemicals.category', $category);
+    }
+    
         $transactions = $query->where('type', 'Out')
             ->where('is_reversed', false)
-            ->orderBy('created_at', 'asc')
+            ->orderBy('chemical_transactions.date', 'desc')
+            ->orderBy('chemical_transactions.created_at', 'desc')
             ->paginate(50);
 
-            $chemical = Chemical::all();
-        $balance = $chemical->balance;
-        return view('chemical.transactions.report-out', compact('transactions', 'user', 'balance', 'categories', 'vehicles'));
+        return view('chemicals.transactions.report-out', compact('transactions', 'user', 'chemicals'));
     }
-
-    public function report_chemical_out_sum(Request $request)
-    {
-
-        $user = Auth::user();
-
-        if ($request->filled('year')) {
-            $year = $request->input('year', date('Y'));
-        } else {
-            $year = date('Y');
-        }
-
-        // Fetch chemical transactions with related vehicle and category
-        $ChemicalTransactions = ChemicalTransaction::with('vehicle.category')
-            ->where('type', 'Out')
-            ->where('is_reversed', false)
-            ->whereYear('date', $year)
-            ->get();
-
-        // Initialize an array to store the summary data
-        $summaryData = [];
-        //array to store years
-        $yearsArray = array();
-        // Loop through years from 2020 to 2030 and add them to the array
-        for ($y = 2020; $y <= 2030; $y++) {
-            $yearsArray[] = $y;
-        }
-
-        // Iterate over chemical transactions to calculate totals per category and vehicle
-        foreach ($chemicalTransactions as $transaction) {
-            $categoryName = $transaction->vehicle->category->name;
-            $vehicleName = strtoupper(substr($transaction->vehicle->category->name, 0, 1)) . '/' . $transaction->vehicle->model . '/' . $transaction->vehicle->number_plate;
-            $month = date('M', strtotime($transaction->date));
-            $quantity = $transaction->quantity;
-
-            // Add quantity to the corresponding category subtotal
-            $summaryData[$categoryName]['total'] = isset($summaryData[$categoryName]['total']) ? $summaryData[$categoryName]['total'] + $quantity : $quantity;
-            // Add quantity to the corresponding vehicle subtotal
-            $summaryData[$categoryName]['vehicles'][$vehicleName][$month] = isset($summaryData[$categoryName]['vehicles'][$vehicleName][$month]) ? $summaryData[$categoryName]['vehicles'][$vehicleName][$month] + $quantity : $quantity;
-        }
-
-
-
-        return view('chemicals.transactions.report-out-sum', compact('summaryData', 'user', 'year', 'yearsArray'));
-    }
-
 
 
     public function create_chemical_out()
