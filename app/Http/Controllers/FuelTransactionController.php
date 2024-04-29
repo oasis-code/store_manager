@@ -16,7 +16,10 @@ class FuelTransactionController extends Controller
     //fuelin
     public function index_fuel_in()
     {
-        $transactions = FuelTransaction::where('type', 'In')->orderBy('created_at', 'desc')->paginate(10);
+        $transactions = FuelTransaction::where('type', 'In')
+        ->orderBy('date', 'desc')
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
         $user = Auth::user();
         $fuel = Fuel::where('type', 'Diesel')->first();
         $balance = $fuel->balance;
@@ -53,7 +56,8 @@ class FuelTransactionController extends Controller
 
         $transactions = $query->where('type', 'In')
             ->where('is_reversed', false)
-            ->orderBy('created_at', 'asc')
+            ->orderBy('date', 'desc')
+            ->orderBy('created_at', 'desc')
             ->paginate(50);
 
         $fuel = Fuel::where('type', 'Diesel')->first();
@@ -179,7 +183,10 @@ class FuelTransactionController extends Controller
     //fuelOUT
     public function index_fuel_out()
     {
-        $transactions = FuelTransaction::where('type', 'Out')->orderBy('created_at', 'desc')->paginate(25);
+        $transactions = FuelTransaction::where('type', 'Out')
+        ->orderBy('date', 'desc')
+        ->orderBy('created_at', 'desc')
+        ->paginate(25);
         $user = Auth::user();
         $fuel = Fuel::where('type', 'Diesel')->first();
         $balance = $fuel->balance;
@@ -216,7 +223,8 @@ class FuelTransactionController extends Controller
 
         $transactions = $query->where('type', 'Out')
             ->where('is_reversed', false)
-            ->orderBy('created_at', 'asc')
+            ->orderBy('date', 'asc')
+            ->orderBy('created_at', 'desc')
             ->paginate(50);
 
         $fuel = Fuel::where('type', 'Diesel')->first();

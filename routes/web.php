@@ -117,10 +117,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/lub-in-report', [LubTransactionController::class, 'report_lub_in'])->name('lub-in.report');
     Route::get('/lub-in/create', [LubTransactionController::class, 'create_lub_in'])->name('lub-in.create');
     Route::post('/lub-in', [LubTransactionController::class, 'store_lub_in'])->name('lub-in.store');
+    Route::post('/reverse-lub-in', [LubTransactionController::class, 'reverse_lub_in'])->name('lub-in.reverse');
     Route::get('/lub-out', [LubTransactionController::class, 'index_lub_out'])->name('lub-out.index');
     Route::get('/lub-out-report', [LubTransactionController::class, 'report_lub_out'])->name('lub-out.report');
     Route::get('/lub-out/create', [LubTransactionController::class, 'create_lub_out'])->name('lub-out.create');
     Route::post('/lub-out', [LubTransactionController::class, 'store_lub_out'])->name('lub-out.store');
+    Route::post('/reverse-lub-out', [LubTransactionController::class, 'reverse_lub_out'])->name('lub-out.reverse');
    
 });
 
@@ -140,10 +142,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/chemical-in-report', [ChemicalTransactionController::class, 'report_chemical_in'])->name('chemical-in.report');
     Route::get('/chemical-in/create', [ChemicalTransactionController::class, 'create_chemical_in'])->name('chemical-in.create');
     Route::post('/chemical-in', [ChemicalTransactionController::class, 'store_chemical_in'])->name('chemical-in.store');
+    Route::post('/reverse-chemical-in', [ChemicalTransactionController::class, 'reverse_chemical_in'])->name('chemical-in.reverse');
     Route::get('/chemical-out', [ChemicalTransactionController::class, 'index_chemical_out'])->name('chemical-out.index');
     Route::get('/chemical-out-report', [ChemicalTransactionController::class, 'report_chemical_out'])->name('chemical-out.report');
     Route::get('/chemical-out/create', [ChemicalTransactionController::class, 'create_chemical_out'])->name('chemical-out.create');
-    Route::post('/chemical-out', [ChemicalTransactionController::class, 'store_chemical_out'])->name('chemical-out.store');   
+    Route::post('/chemical-out', [ChemicalTransactionController::class, 'store_chemical_out'])->name('chemical-out.store');  
+    Route::post('/reverse-chemical-out', [ChemicalTransactionController::class, 'reverse_chemical_out'])->name('chemical-out.reverse');
+ 
 });
 
 //Fertiliser

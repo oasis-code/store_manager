@@ -46,7 +46,7 @@
                                 <tr class="text-nowrap @if ($transaction->is_reversed or $transaction->reverses) text-muted @endif">
                                     <td>{{ $transaction->id }}</td>
                                     <td>{{ $transaction->date }}</td>
-                                    <td>{{ $transaction->chemical->name }}</td>                                    
+                                    <td>{{ $transaction->chemical->code }} - {{ $transaction->chemical->name }}</td>                                    
                                     <td>{{ $transaction->vehicle->number_plate }}</td>
                                     <td>{{ $transaction->delivery_note_no }}</td>
                                     <td>{{ $transaction->internal_delivery_no }}</td>
