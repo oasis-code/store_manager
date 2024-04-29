@@ -122,10 +122,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/lub-out-report', [LubTransactionController::class, 'report_lub_out'])->name('lub-out.report');
     Route::get('/lub-out/create', [LubTransactionController::class, 'create_lub_out'])->name('lub-out.create');
     Route::post('/lub-out', [LubTransactionController::class, 'store_lub_out'])->name('lub-out.store');
-    Route::post('/reverse-lub-out', [LubTransactionController::class, 'reverse_lub_out'])->name('lub-out.reverse');
-   
+    Route::post('/reverse-lub-out', [LubTransactionController::class, 'reverse_lub_out'])->name('lub-out.reverse');   
 });
-
 
 //Chemical
 Route::middleware(['auth'])->group(function () {
@@ -166,8 +164,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/fertiliser-in-report', [FertiliserTransactionController::class, 'report_fertiliser_in'])->name('fertiliser-in.report');
     Route::get('/fertiliser-in/create', [FertiliserTransactionController::class, 'create_fertiliser_in'])->name('fertiliser-in.create');
     Route::post('/fertiliser-in', [FertiliserTransactionController::class, 'store_fertiliser_in'])->name('fertiliser-in.store');
+    Route::post('/reverse-fertiliser-in', [FertiliserTransactionController::class, 'reverse_fertiliser_in'])->name('fertiliser-in.reverse');
     Route::get('/fertiliser-out', [FertiliserTransactionController::class, 'index_fertiliser_out'])->name('fertiliser-out.index');
     Route::get('/fertiliser-out-report', [FertiliserTransactionController::class, 'report_fertiliser_out'])->name('fertiliser-out.report');
     Route::get('/fertiliser-out/create', [FertiliserTransactionController::class, 'create_fertiliser_out'])->name('fertiliser-out.create');
     Route::post('/fertiliser-out', [FertiliserTransactionController::class, 'store_fertiliser_out'])->name('fertiliser-out.store');   
+    Route::post('/reverse-fertiliser-out', [FertiliserTransactionController::class, 'reverse_fertiliser_out'])->name('fertiliser-out.reverse');
+
 });

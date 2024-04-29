@@ -89,7 +89,7 @@ class FertiliserTransactionController extends Controller
             // Create a new transaction
             $transaction = new FertiliserTransaction();
             $transaction->fill($validatedData);
-           // dd($transaction);
+          // dd($transaction);
             $transaction->save();
 
             $fertiliser = Fertiliser::find($request->fertiliser_id);
