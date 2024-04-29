@@ -122,12 +122,13 @@
                             <th>Id</th>
                             <th>Date</th>
                             <th>Name</th>
+                            <th>category </th>
                             <th>Person</th>
                             <th>Receipt No.</th>
                             <th>Destination</th>
-                            <th>Packs</th>
-                            <th>Quantity</th>
-                            <th>Units</th>
+                            <th>No. of Packs</th>
+                            <th>Qty</th>
+                            
                             <th>Rate</th>
                             <th>Ha or Ton</th>                            
                         </tr> 
@@ -145,15 +146,16 @@
                                 <tr class="text-nowrap">
                                     <td>{{ $transaction->id }}</td>
                                     <td>{{ $transaction->date }}</td>
-                                    <td>{{ $transaction->chemical->code }} - {{ $transaction->chemical->name }}</td>        
+                                    <td>{{ $transaction->chemical->code }} - {{ $transaction->chemical->name }}</td>
+                                    <td>{{ $transaction->chemical->category}}</td>
                                     <td>{{ $transaction->person->name }}</td>
                                     <td>{{ $transaction->receipt_no }}</td>
                                     <td>{{ $transaction->destination }}</td>
                                     <td>{{ $transaction->no_of_packs }}</td>
-                                    <td><b>{{ number_format($quantity, 1, '.', ',') }}</b></td>
-                                    <td>{{ $transaction->chemical->unit_of_measure }}</td> 
+                                    <td><b>{{ number_format($quantity, 0, '.', ',') }}</b> {{ $transaction->chemical->unit_of_measure }}</td>
+                              
                                     <td>{{ $transaction->chemical->rate }} @if ($chemical->category === 'Farm') {{ $transaction->chemical->unit_of_measure }}/Ha @else {{ $transaction->chemical->unit_of_measure }}/Ton @endif</td> 
-                                    <td>{{ $ha_ton }} @if ($chemical->category === 'Farm') Ha(s) @else Ton(s) @endif</td> 
+                                    <td>{{ number_format($ha_ton , 2, '.', ',') }} @if ($chemical->category === 'Farm') Ha(s) @else Ton(s) @endif</td> 
                                    
                                 </tr>
                             @endforeach

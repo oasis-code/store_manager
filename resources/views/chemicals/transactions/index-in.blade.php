@@ -31,7 +31,7 @@
                             <th>Internal delivery No.</th>
                             <th>No. Of Packs</th>
                             <th>Quantity</th>
-                            <th>Units</th>
+                            
                             <th class="text-nowrap">Action/ Comment</th>
                         </tr>
                     </thead>
@@ -51,8 +51,8 @@
                                     <td>{{ $transaction->delivery_note_no }}</td>
                                     <td>{{ $transaction->internal_delivery_no }}</td>
                                     <td>{{ $transaction->no_of_packs }}</td>
-                                    <td><b>{{ number_format($quantity, 0, '.', ',') }}</b></td>
-                                    <td>{{ $transaction->chemical->unit_of_measure }}</td>  
+                                    <td><b>{{ number_format($quantity, 0, '.', ',') }}</b> {{ $transaction->chemical->unit_of_measure }}</td>
+                                     
                                     <td>
 
                                         @if ($transaction->reverses)

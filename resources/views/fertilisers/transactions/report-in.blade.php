@@ -36,23 +36,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Category of fertiliser</label>
-                                        <div class="input-group ">
-                                            <select class="form-control select2" id="category" name="category">
-                                                <option value="">--Select category</option>
-                                                <option value="Seed treatment">Seed treatment (CF)</option>
-                                                <option value="Farm">Farm (CC)</option>
-                                            </select>
-                                            @error('category')
-                                                <div class="text-sm text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
+                               
 
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>From:</label>
                                         <div class="input-group date" id="reservationdate" data-target-input="nearest">
@@ -65,7 +51,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>To:</label>
                                         <div class="input-group date" id="reservationdate1" data-target-input="nearest">
@@ -78,9 +64,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>:</label>
+                                        <label>Generate</label>
                                         <input type="submit" class="btn bg-success form-control" value="Submit">
                                     </div>
                                 </div>
@@ -107,9 +93,9 @@
                             <th>Vehicle</th>
                             <th>Delivery Note No.</th>
                             <th>Internal delivery No.</th>
-                            <th>Packs</th>
-                            <th>Quantity</th>
-                            <th>Units</th>
+                            <th>No. of Packs</th>
+                            <th>Qty (Kgs)</th>
+                            <th>Unit cost (ugx) </th>
                             <th>Trxn cost(UGX)</th>
                         </tr>
                     </thead>
@@ -130,8 +116,8 @@
                                     <td>{{ $transaction->delivery_note_no }}</td>
                                     <td>{{ $transaction->internal_delivery_no }}</td>
                                     <td>{{ $transaction->no_of_packs }}</td>
-                                    <td><b>{{ number_format($quantity, 1, '.', ',') }}</b></td>
-                                    <td>{{ $transaction->fertiliser->unit_of_measure }}</td>  
+                                    <td><b>{{ number_format($quantity, 0, '.', ',') }}</b></td>
+                                    <td>{{number_format($transaction->fertiliser->unit_price, 0, '.', ',')}}
                                     <td><b>{{ number_format($cost, 0, '.', ',') }}</b></td>
                                 </tr>
                             @endforeach
@@ -146,7 +132,7 @@
                     <tfoot>
                         <tr class="text-nowrap">
                             {{-- <td colspan="7" rowspan="1">Total fertiliser Balance is: <b><span class="count-up"
-                                data-value="{{ $balance }}">0</span> Litres</b> in stock</td> --}}
+                                data-value="{{ $balance }}">0</span> Kgs</b> in stock</td> --}}
 
                         </tr>
                     </tfoot>

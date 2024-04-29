@@ -16,7 +16,10 @@ class FertiliserTransactionController extends Controller
     //fertiliserin
     public function index_fertiliser_in()
     {
-        $transactions = FertiliserTransaction::where('type', 'In')->orderBy('created_at', 'desc')->paginate(25);
+        $transactions = FertiliserTransaction::where('type', 'In')
+        ->orderBy('date', 'desc')
+        ->orderBy('created_at', 'desc')
+        ->paginate(25);
         $user = Auth::user();
         return view('fertilisers.transactions.index-in', compact('transactions', 'user'));
     }
@@ -27,14 +30,11 @@ class FertiliserTransactionController extends Controller
         $fertilisers = Fertiliser::all();
         $user = Auth::user();
 
-        $query = FertiliserTransaction::query();
-
-        
+        $query = FertiliserTransaction::query();        
 
         if ($request->filled('fertiliser_id')) {
             $query->where('fertiliser_id', $request->input('fertiliser_id'));
         }
-
 
         if ($request->filled('from_date')) {
             $query->where('date', '>=', $request->input('from_date'));
@@ -44,9 +44,17 @@ class FertiliserTransactionController extends Controller
             $query->where('date', '<=', $request->input('to_date'));
         }
 
+        // Filter by fertiliser category
+    if ($request->filled('category')) {
+        $category = $request->input('category');
+        $query->join('fertilisers', 'fertiliser_transactions.fertiliser_id', '=', 'fertilisers.id')
+            ->where('fertilisers.category', $category);
+    }
+
         $transactions = $query->where('type', 'In')
             ->where('is_reversed', false)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('fertiliser_transactions.date', 'desc')
+            ->orderBy('fertiliser_transactions.created_at', 'desc')
             ->paginate(50);
 
         return view('fertilisers.transactions.report-in', compact('transactions', 'user', 'fertilisers'));
@@ -61,12 +69,10 @@ class FertiliserTransactionController extends Controller
         return view('fertilisers.transactions.create-in', compact('user', 'vehicles', 'fertilisers'));
     }
 
-
     public function store_fertiliser_in(Request $request)
     {
         // Validate the input data
         $validatedData = $request->validate([
-
             'type' => 'required|max:255',
             'date' => 'required|date',
             'no_of_packs' => 'required|numeric|min:0',
@@ -77,27 +83,21 @@ class FertiliserTransactionController extends Controller
             'fertiliser_id' => 'required|exists:fertilisers,id',
         ]);
 
-
-
         try {
             // Start a database transaction
             DB::beginTransaction();
-
             // Create a new transaction
             $transaction = new FertiliserTransaction();
             $transaction->fill($validatedData);
+           // dd($transaction);
             $transaction->save();
-
 
             $fertiliser = Fertiliser::find($request->fertiliser_id);
             $fertiliser->balance += $request->no_of_packs;
             $fertiliser->save();
 
-
-
             // Commit the database transaction
             DB::commit();
-
             return redirect()->route('fertiliser-in.index')->with('success', 'Transaction Added successfully.');
         } catch (\Exception $e) {
             // If an exception occurs, rollback the database transaction
@@ -174,29 +174,27 @@ class FertiliserTransactionController extends Controller
     //fertiliserOUT
     public function index_fertiliser_out()
     {
-        $transactions = FertiliserTransaction::where('type', 'Out')->orderBy('created_at', 'desc')->paginate(25);
+        $transactions = FertiliserTransaction::where('type', 'Out')
+        ->orderBy('date', 'desc')
+        ->orderBy('created_at', 'desc')
+        ->paginate(25);
         $user = Auth::user();
-        return view('Fertilisers.transactions.index-out', compact('transactions', 'user'));
+        return view('fertilisers.transactions.index-out', compact('transactions', 'user'));
     }
 
 
     public function report_fertiliser_out(Request $request)
     {
-        $categories = VehicleCategory::all();
-        $vehicles = Vehicle::all();
+        $fertilisers = Fertiliser::all();
         $user = Auth::user();
 
-        $query = FertiliserTransaction::query();
+        $query = fertiliserTransaction::query();        
 
-        // Apply filters
-        if ($request->filled('category_id')) {
-            $query->whereHas('vehicle.category', function ($query) use ($request) {
-                $query->where('id', $request->input('category_id'));
-            });
+        if ($request->filled('fertiliser_id')) {
+            $query->where('fertiliser_id', $request->input('fertiliser_id'));
         }
-
-        if ($request->filled('vehicle_id')) {
-            $query->where('vehicle_id', $request->input('vehicle_id'));
+        if ($request->filled('destination')) {
+            $query->where('destination', $request->input('destination'));
         }
 
         if ($request->filled('from_date')) {
@@ -207,61 +205,21 @@ class FertiliserTransactionController extends Controller
             $query->where('date', '<=', $request->input('to_date'));
         }
 
+        // Filter by fertiliser category
+    if ($request->filled('category')) {
+        $category = $request->input('category');
+        $query->join('fertilisers', 'fertiliser_transactions.fertiliser_id', '=', 'fertilisers.id')
+            ->where('fertilisers.category', $category);
+    }
+    
         $transactions = $query->where('type', 'Out')
             ->where('is_reversed', false)
-            ->orderBy('created_at', 'asc')
+            ->orderBy('fertiliser_transactions.date', 'desc')
+            ->orderBy('fertiliser_transactions.created_at', 'desc')
             ->paginate(50);
 
-            $fertiliser = Fertiliser::all();
-        $balance = $fertiliser->balance;
-        return view('fertiliser.transactions.report-out', compact('transactions', 'user', 'balance', 'categories', 'vehicles'));
+        return view('fertilisers.transactions.report-out', compact('transactions', 'user', 'fertilisers'));
     }
-
-    public function report_fertiliser_out_sum(Request $request)
-    {
-
-        $user = Auth::user();
-
-        if ($request->filled('year')) {
-            $year = $request->input('year', date('Y'));
-        } else {
-            $year = date('Y');
-        }
-
-        // Fetch fertiliser transactions with related vehicle and category
-        $FertiliserTransactions = FertiliserTransaction::with('vehicle.category')
-            ->where('type', 'Out')
-            ->where('is_reversed', false)
-            ->whereYear('date', $year)
-            ->get();
-
-        // Initialize an array to store the summary data
-        $summaryData = [];
-        //array to store years
-        $yearsArray = array();
-        // Loop through years from 2020 to 2030 and add them to the array
-        for ($y = 2020; $y <= 2030; $y++) {
-            $yearsArray[] = $y;
-        }
-
-        // Iterate over fertiliser transactions to calculate totals per category and vehicle
-        foreach ($fertiliserTransactions as $transaction) {
-            $categoryName = $transaction->vehicle->category->name;
-            $vehicleName = strtoupper(substr($transaction->vehicle->category->name, 0, 1)) . '/' . $transaction->vehicle->model . '/' . $transaction->vehicle->number_plate;
-            $month = date('M', strtotime($transaction->date));
-            $quantity = $transaction->quantity;
-
-            // Add quantity to the corresponding category subtotal
-            $summaryData[$categoryName]['total'] = isset($summaryData[$categoryName]['total']) ? $summaryData[$categoryName]['total'] + $quantity : $quantity;
-            // Add quantity to the corresponding vehicle subtotal
-            $summaryData[$categoryName]['vehicles'][$vehicleName][$month] = isset($summaryData[$categoryName]['vehicles'][$vehicleName][$month]) ? $summaryData[$categoryName]['vehicles'][$vehicleName][$month] + $quantity : $quantity;
-        }
-
-
-
-        return view('fertilisers.transactions.report-out-sum', compact('summaryData', 'user', 'year', 'yearsArray'));
-    }
-
 
 
     public function create_fertiliser_out()

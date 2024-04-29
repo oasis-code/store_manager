@@ -24,13 +24,13 @@
                             
                             <th>Name</th>
                             <th>Code</th>
-                           
-                            <th>Pack Qty</th>
-                            <th>Rate</th>
+                            <th>Rate(Kg/Ha)</th>
+                            <th>Pack Qty(Kg)</th>
                             <th>Ha</th>
                             <th>unit cost</th>
                             <th>pack cost</th>
-                            <th>Balance</th>
+                            <th>Bal.packs
+                            <th>Bal.kgs</th>
                             <th>Bal.cost</th>
                             <th>Bal.Ha</th>
                         </tr>
@@ -40,22 +40,27 @@
                             @foreach ($fertilisers as $fertiliser)                          
                             @php
                             $tons = $fertiliser->quantity_per_pack / $fertiliser->rate;
+                            $balace_q = $fertiliser->balance * $fertiliser->quantity_per_pack;
                             $pack_cost =  $fertiliser->unit_price * $fertiliser->quantity_per_pack;
                             $balance_cost =  $fertiliser->balance * $fertiliser->unit_price;
                             $balance_Ha = $fertiliser->balance / $fertiliser->rate;
+
                             @endphp
                                 <tr class="text-nowrap">
                                     <td><a href="{{ route('fertilisers.edit', ['fertiliser' => $fertiliser]) }}">{{ $fertiliser->name }}</a>
                                     </td>
                                     <td>{{ $fertiliser->code }}</td>
+                                    
                                     <td>{{ $fertiliser->quantity_per_pack }}</td>
                                     <td>{{ $fertiliser->rate }}</td>
-                                    <td>{{ $tons }}</td>
-                                    <td>{{ number_format($fertiliser->unit_price, 1, '.', ',') }}</td>
-                                    <td>{{ number_format($pack_cost, 1, '.', ',') }}</td>
-                                    <td>{{ $fertiliser->balance }}</td>
-                                    <td>{{ number_format($balance_cost, 1, '.', ',') }} </td>  
-                                    <td>{{ $balance_Ha }}</td>                           
+                                    <td>{{ number_format($tons, 2, '.', ',') }}</td>
+                                    <td>{{ number_format($fertiliser->unit_price, 0, '.', ',') }}</td>
+                                    <td>{{ number_format($pack_cost, 0, '.', ',') }}</td>
+                                    <td>{{ number_format($fertiliser->balance, 0, '.', ',') }}</td>
+                                    <td>{{ $balace_q }}</td>
+                                    <td>{{ number_format($balance_cost, 0, '.', ',') }} </td>  
+                                    <td>{{ number_format($balance_Ha, 2, '.', ',') }}</td>                          
+                          
 
                                 </tr>
                             @endforeach

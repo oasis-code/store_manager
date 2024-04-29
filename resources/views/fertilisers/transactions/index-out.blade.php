@@ -29,8 +29,8 @@
                             <th>Receipt No.</th>
                             <th>Destination</th>
                             <th>No. Of Packs</th>
-                            <th>Quantity</th>
-                            <th>Units</th>
+                            <th>Qty (Kgs)</th>
+                    
                             <th class="text-nowrap">Action/ Comment</th>
                         </tr>
                     </thead>
@@ -51,7 +51,7 @@
                                     <td>{{ $transaction->destination }}</td>
                                     <td>{{ $transaction->no_of_packs }}</td>
                                     <td><b>{{ number_format($quantity, 0, '.', ',') }}</b></td>
-                                    <td>{{ $transaction->fertiliser->unit_of_measure }}</td>  
+                                    
                                     <td>
 
                                         @if ($transaction->reverses)

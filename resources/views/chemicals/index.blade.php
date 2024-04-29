@@ -25,8 +25,10 @@
                             <th>Name</th>
                             <th>Code</th>
                             <th>Purpose</th>
-                            <th>Rate</th>
+
                             <th>Pack Qty</th>
+                            <th>Rate</th>
+                            
                             <th>Tons</th>
                             <th>unit cost</th>
                             <th>pack cost</th>
@@ -51,12 +53,13 @@
                                     </td>
                                     <td>{{ $chemical->code }}</td>
                                     <td>{{ $chemical->purpose }}</td>
-                                    <td>{{ $chemical->rate }} @if ($chemical->unit_of_measure === 'lt') lt/ton @else Kg/ton @endif</td>
                                     <td>{{ $chemical->quantity_per_pack }}</td>
+                                    <td>{{ $chemical->rate }} @if ($chemical->unit_of_measure === 'lt') lt/ton @else Kg/ton @endif</td>
+                                    
                                     <td>{{ number_format($tons, 2, '.', ',') }}</td>
                                     <td>{{ number_format($chemical->unit_price, 0, '.', ',') }}</td>
                                     <td>{{ number_format($pack_cost, 0, '.', ',') }}</td>
-                                    <td>{{ $chemical->balance }}</td>
+                                    <td>{{ number_format($chemical->balance, 0, '.', ',') }}</td>
                                     <td>{{ $balace_q }}</td>
                                     <td>{{ number_format($balance_cost, 0, '.', ',') }} </td>  
                                     <td>{{ number_format($balance_tons, 2, '.', ',') }}</td>                          
@@ -90,8 +93,9 @@
                             <th>Name</th>
                             <th>Code</th>
                             <th>Purpose</th>
-                            <th>Rate</th>
                             <th>Pack Qty</th>
+                            <th>Rate</th>
+                            
                             <th>Ha</th>
                             <th>unit cost</th>
                             <th>pack cost</th>
@@ -117,12 +121,13 @@
                                     </td>
                                     <td>{{ $chemical->code }}</td>
                                     <td>{{ $chemical->purpose }}</td>
-                                    <td>{{ $chemical->rate }} @if ($chemical->unit_of_measure === 'lt') lt/Ha @else Kg/Ha @endif</td>
                                     <td>{{ $chemical->quantity_per_pack }}</td>
+                                    <td>{{ $chemical->rate }} @if ($chemical->unit_of_measure === 'lt') lt/Ha @else Kg/Ha @endif</td>
+                                    
                                     <td>{{ number_format($ha, 2, '.', ',') }}</td>
                                     <td>{{ number_format($chemical->unit_price, 0, '.', ',') }}</td>
                                     <td>{{ number_format($pack_cost, 0, '.', ',') }}</td>
-                                    <td>{{ $chemical->balance }}</td>
+                                    <td>{{ number_format($chemical->balance, 0, '.', ',') }}</td>
                                     <td>{{ $balace_q }}</td>
                                     <td>{{ number_format($balance_cost, 0, '.', ',') }} </td>  
                                     <td>{{ number_format($balance_Ha, 2, '.', ',') }}</td>                          

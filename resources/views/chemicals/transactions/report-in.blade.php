@@ -109,7 +109,7 @@
                             <th>Internal delivery No.</th>
                             <th>Packs</th>
                             <th>Quantity</th>
-                            <th>Units</th>
+                            <th>Unit cost</th>
                             <th>Trxn cost(UGX)</th>
                         </tr>
                     </thead>
@@ -130,8 +130,8 @@
                                     <td>{{ $transaction->delivery_note_no }}</td>
                                     <td>{{ $transaction->internal_delivery_no }}</td>
                                     <td>{{ $transaction->no_of_packs }}</td>
-                                    <td><b>{{ number_format($quantity, 1, '.', ',') }}</b></td>
-                                    <td>{{ $transaction->chemical->unit_of_measure }}</td>  
+                                    <td><b>{{ number_format($quantity, 0, '.', ',') }}</b> {{ $transaction->chemical->unit_of_measure }}</td>
+                                    <td>{{ number_format($transaction->chemical->unit_price,0, '.',',') }} 
                                     <td><b>{{ number_format($cost, 0, '.', ',') }}</b></td>
                                 </tr>
                             @endforeach
