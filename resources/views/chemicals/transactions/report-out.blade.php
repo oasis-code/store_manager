@@ -154,8 +154,8 @@
                                     <td>{{ $transaction->no_of_packs }}</td>
                                     <td><b>{{ number_format($quantity, 0, '.', ',') }}</b> {{ $transaction->chemical->unit_of_measure }}</td>
                               
-                                    <td>{{ $transaction->chemical->rate }} @if ($chemical->category === 'Farm') {{ $transaction->chemical->unit_of_measure }}/Ha @else {{ $transaction->chemical->unit_of_measure }}/Ton @endif</td> 
-                                    <td>{{ number_format($ha_ton , 2, '.', ',') }} @if ($chemical->category === 'Farm') Ha(s) @else Ton(s) @endif</td> 
+                                    <td>{{ $transaction->chemical->rate }} @if ($transaction->chemical->category == 'Farm') {{ $transaction->chemical->unit_of_measure }}/Ha @else {{ $transaction->chemical->unit_of_measure }}/Ton @endif</td> 
+                                    <td>{{ number_format($ha_ton , 2, '.', ',') }} @if ($transaction->chemical->category == 'Farm') Ha(s) @else Ton(s) @endif</td> 
                                    
                                 </tr>
                             @endforeach
