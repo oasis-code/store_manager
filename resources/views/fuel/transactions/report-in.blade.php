@@ -112,7 +112,7 @@
                             <th>Date</th>
                             <th>Vehicle Number</th>
                             <th>Driver</th>
-                            <th>Authorized by</th>
+                            <th>Received By</th>
                             <th>Quantity (litres)</th>
                             <th>Total</th>
                         </tr>

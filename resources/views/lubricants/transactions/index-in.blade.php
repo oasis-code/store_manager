@@ -28,7 +28,7 @@
                             <th>Type</th>
                             <th>Vehicle Number</th>
                             <th>Driver</th>
-                            <th>Authorized by</th>
+                            <th>Received By</th>
                             <th>Quantity (litres)</th>
                             <th class="text-nowrap">Action/ Comment</th>
 

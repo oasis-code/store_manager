@@ -111,6 +111,7 @@
                             <th>Person</th>
                             <th>Receipt No.</th>
                             <th>Destination</th>
+                            <th>Issued By</th>
                             <th>No. of Packs</th>
                             <th>Qty(Kg)</th>
                             
@@ -135,6 +136,7 @@
                                     <td>{{ $transaction->person->name }}</td>
                                     <td>{{ $transaction->receipt_no }}</td>
                                     <td>{{ $transaction->destination }}</td>
+                                    <td>{{ $transaction->user->name }}</td>
                                     <td>{{ $transaction->no_of_packs }}</td>
                                     <td><b>{{ number_format($quantity, 0, '.', ',') }}</b></td>
                                    

@@ -107,6 +107,7 @@
                             <th>Vehicle</th>
                             <th>Delivery Note No.</th>
                             <th>Internal delivery No.</th>
+                            <th>Received By</th>
                             <th>Packs</th>
                             <th>Quantity</th>
                             <th>Unit cost</th>
@@ -129,6 +130,7 @@
                                     <td>{{ $transaction->vehicle->number_plate }}</td>
                                     <td>{{ $transaction->delivery_note_no }}</td>
                                     <td>{{ $transaction->internal_delivery_no }}</td>
+                                    <td>{{ $transaction->user->name }}</td>
                                     <td>{{ $transaction->no_of_packs }}</td>
                                     <td><b>{{ number_format($quantity, 0, '.', ',') }}</b> {{ $transaction->chemical->unit_of_measure }}</td>
                                     <td>{{ number_format($transaction->chemical->unit_price,0, '.',',') }} 

@@ -112,7 +112,7 @@
                             <th>Date</th>
                             <th>Vehicle Number</th>
                             <th>Operator</th>
-                            <th>Authorized by</th>
+                            <th>Issued By</th>
                             <th>Quantity (litres)</th>
                             <th>Total</th>
                         </tr>
