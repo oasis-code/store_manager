@@ -74,7 +74,7 @@
       <i class="fas fa-box"></i>
 
       </div>
-      <a href="#" class="small-box-footer">Go to dashboard <i class="fas fa-arrow-circle-right"></i></a>
+      <a href="{{ route('packagings.index') }}" class="small-box-footer">Go to dashboard <i class="fas fa-arrow-circle-right"></i></a>
     </div>
   </div>
   <!-- ./col -->

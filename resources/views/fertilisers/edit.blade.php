@@ -47,7 +47,7 @@
                     </div> 
                     <div class="form-group">
                         <label for="rate">Rate *</label>
-                        <input type="number" class="form-control" id="rate" name="rate" value="{{ $fertiliser->rate }}"
+                        <input type="text" class="form-control" id="rate" name="rate" value="{{ $fertiliser->rate }}"
                              required>
                         @error('rate')
                             <div class="text-sm text-danger">{{ $message }}</div>

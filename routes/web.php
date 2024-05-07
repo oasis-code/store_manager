@@ -13,6 +13,8 @@ use App\Http\Controllers\LubTransactionController;
 use App\Http\Controllers\FuelTransactionController;
 use App\Http\Controllers\FertiliserController;
 use App\Http\Controllers\FertiliserTransactionController;
+use App\Http\Controllers\PackagingController;
+use App\Http\Controllers\PackagingTransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -171,4 +173,27 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/fertiliser-out', [FertiliserTransactionController::class, 'store_fertiliser_out'])->name('fertiliser-out.store');   
     Route::post('/reverse-fertiliser-out', [FertiliserTransactionController::class, 'reverse_fertiliser_out'])->name('fertiliser-out.reverse');
 
+});
+
+//Packaging
+Route::middleware(['auth'])->group(function () {
+    Route::get('/packagings', [PackagingController::class, 'index'])->name('packagings.index');
+    Route::get('/packagings/create', [PackagingController::class, 'create'])->name('packagings.create');
+    Route::post('/packagings', [PackagingController::class, 'store'])->name('packagings.store');
+    Route::get('/packagings/{packaging}/edit', [PackagingController::class, 'edit'])->name('packagings.edit');
+    Route::put('/packagings/{packaging}', [PackagingController::class, 'update'])->name('packagings.update');
+});
+
+//Packaging Transaction
+Route::middleware(['auth'])->group(function () {
+    Route::get('/packaging-in', [PackagingTransactionController::class, 'index_packaging_in'])->name('packaging-in.index');
+    Route::get('/packaging-in-report', [PackagingTransactionController::class, 'report_packaging_in'])->name('packaging-in.report');
+    Route::get('/packaging-in/create', [PackagingTransactionController::class, 'create_packaging_in'])->name('packaging-in.create');
+    Route::post('/packaging-in', [PackagingTransactionController::class, 'store_packaging_in'])->name('packaging-in.store');
+    Route::post('/reverse-packaging-in', [PackagingTransactionController::class, 'reverse_packaging_in'])->name('packaging-in.reverse');
+    Route::get('/packaging-out', [PackagingTransactionController::class, 'index_packaging_out'])->name('packaging-out.index');
+    Route::get('/packaging-out-report', [PackagingTransactionController::class, 'report_packaging_out'])->name('packaging-out.report');
+    Route::get('/packaging-out/create', [PackagingTransactionController::class, 'create_packaging_out'])->name('packaging-out.create');
+    Route::post('/packaging-out', [PackagingTransactionController::class, 'store_packaging_out'])->name('packaging-out.store');  
+    Route::post('/reverse-packaging-out', [PackagingTransactionController::class, 'reverse_packaging_out'])->name('packaging-out.reverse');
 });

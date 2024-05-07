@@ -49,7 +49,7 @@ class FertiliserController extends Controller
     {
         // Retrieve the authenticated user
         $user = Auth::user();
-        return view('fertiliser.edit', compact('user', 'fertiliser'));
+        return view('fertilisers.edit', compact('user', 'fertiliser'));
     }
 
     public function update(Request $request, Fertiliser $fertiliser)
