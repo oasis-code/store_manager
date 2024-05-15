@@ -62,16 +62,13 @@
                             <div class="text-sm text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="destination">Destination *</label>
                         <select class="form-control select2" id="destination" name="destination" required>
                             <option value="">--Select Destination</option>
                             <option value="Factory"> Factory</option>
                             <option value="Parent Seed">Parent Seed</option>
-                            <option value="Out Grower">Out Grower</option>
-                            <option value="Research">Research</option>
-                            <option value="Others"> Others</option>
                         </select>
                         @error('destination')
                             <div class="text-sm text-danger">{{ $message }}</div>
@@ -88,71 +85,90 @@
                         </div>
                     </div>
                     <div class="form-group">
-    <label for="no_of_packs">Number of Packs *</label>
-    <div class="input-group">
-        <input type="number" class="form-control" id="no_of_packs" name="no_of_packs" value="{{ old('no_of_packs') }}" required>
-        @error('no_of_packs')
-            <div class="text-sm text-danger">{{ $message }}</div>
-        @enderror
-    </div>
-</div>
+                        <label for="no_of_packs">Number of Packs *</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="no_of_packs" name="no_of_packs"
+                                value="{{ old('no_of_packs') }}" required>
+                            @error('no_of_packs')
+                                <div class="text-sm text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
 
-<div id="quantityInputs"></div>
+                    <div id="quantityInputs"></div>
 
-<script>
-    document.getElementById('no_of_packs').addEventListener('input', function() {
-        var noOfPacks = parseInt(this.value);
-        var quantityInputs = document.getElementById('quantityInputs');
-        quantityInputs.innerHTML = '';
+                    <!-- Hidden field for total quantity -->
+                    <input type="hidden" id="total_quantity" name="total_quantity">
 
-        if (noOfPacks > 0) {
-            var table = document.createElement('table');
-            table.classList.add('table', 'table-bordered');
+                    <script>
+                        document.getElementById('no_of_packs').addEventListener('input', function() {
+                            var noOfPacks = parseInt(this.value);
+                            var quantityInputs = document.getElementById('quantityInputs');
+                            quantityInputs.innerHTML = '';
 
-            // Create header row
-            var headerRow = document.createElement('tr');
-            var headerCell = document.createElement('th');
-            headerCell.textContent = 'Pack';
-            headerRow.appendChild(headerCell);
-            for (var i = 0; i < noOfPacks; i++) {
-                var headerCell = document.createElement('th');
-                headerCell.textContent = 'Pack ' + (i + 1);
-                headerRow.appendChild(headerCell);
-            }
-            var totalHeaderCell = document.createElement('th');
-            totalHeaderCell.textContent = 'Total';
-            headerRow.appendChild(totalHeaderCell);
-            table.appendChild(headerRow);
+                            if (noOfPacks > 0) {
+                                var table = document.createElement('table');
+                                table.classList.add('table', 'table-bordered');
 
-            // Create value row
-            var valueRow = document.createElement('tr');
-            var packNumberCell = document.createElement('td');
-            packNumberCell.textContent = 'Quantity';
-            valueRow.appendChild(packNumberCell);
-            for (var i = 0; i < noOfPacks; i++) {
-                var inputCell = document.createElement('td');
-                var input = document.createElement('input');
-                input.type = 'number';
-                input.classList.add('form-control');
-                input.required = true;
-                input.name = 'quantity[]'; // Use array notation for input names
-                input.placeholder = 'Enter quantity';
-                inputCell.appendChild(input);
-                valueRow.appendChild(inputCell);
-            }
-            var totalCell = document.createElement('td');
-            var totalInput = document.createElement('input');
-            totalInput.type = 'text';
-            totalInput.classList.add('form-control', 'total');
-            totalInput.readOnly = true;
-            totalCell.appendChild(totalInput);
-            valueRow.appendChild(totalCell);
-            table.appendChild(valueRow);
+                                // Create header row
+                                var headerRow = document.createElement('tr');
+                                var headerCell = document.createElement('th');
+                                headerCell.textContent = 'Pack';
+                                headerRow.appendChild(headerCell);
+                                for (var i = 0; i < noOfPacks; i++) {
+                                    var headerCell = document.createElement('th');
+                                    headerCell.textContent = 'Pack ' + (i + 1);
+                                    headerRow.appendChild(headerCell);
+                                }
+                                var totalHeaderCell = document.createElement('th');
+                                totalHeaderCell.textContent = 'Total';
+                                headerRow.appendChild(totalHeaderCell);
+                                table.appendChild(headerRow);
 
-            quantityInputs.appendChild(table);
-        }
-    });
-</script>
+                                // Create value row
+                                var valueRow = document.createElement('tr');
+                                var packNumberCell = document.createElement('td');
+                                packNumberCell.textContent = 'Quantity';
+                                valueRow.appendChild(packNumberCell);
+                                for (var i = 0; i < noOfPacks; i++) {
+                                    var inputCell = document.createElement('td');
+                                    var input = document.createElement('input');
+                                    input.type = 'number'; // Ensure input type is number
+                                    input.classList.add('form-control', 'quantity');
+                                    input.required = true;
+                                    input.name = 'quantity[]'; // Use array notation for input names
+                                    input.placeholder = 'Enter quantity';
+                                    input.step = '0.01'; // Allow float values
+                                    input.addEventListener('input', calculateTotal);
+                                    inputCell.appendChild(input);
+                                    valueRow.appendChild(inputCell);
+                                }
+                                var totalCell = document.createElement('td');
+                                var totalInput = document.createElement('input');
+                                totalInput.type = 'text';
+                                totalInput.classList.add('form-control', 'total');
+                                totalInput.readOnly = true;
+                                totalCell.appendChild(totalInput);
+                                valueRow.appendChild(totalCell);
+                                table.appendChild(valueRow);
+
+                                quantityInputs.appendChild(table);
+                            }
+                        });
+
+                        function calculateTotal() {
+                            var quantities = document.querySelectorAll('.quantity');
+                            var total = 0;
+                            quantities.forEach(function(input) {
+                                var value = parseFloat(input.value);
+                                if (!isNaN(value)) {
+                                    total += value;
+                                }
+                            });
+                            document.querySelector('.total').value = total.toFixed(2); // Display total as float
+                            document.getElementById('total_quantity').value = total.toFixed(2); // Store total as float
+                        }
+                    </script>
 
 
                     <input type="text" class="form-control" id="user_id" name="user_id" value="{{ $user->id }}"

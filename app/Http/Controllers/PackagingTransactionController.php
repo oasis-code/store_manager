@@ -71,11 +71,13 @@ class PackagingTransactionController extends Controller
  
      public function store_packaging_in(Request $request)
      {
-         // Validate the input data
+        //dd($request); 
+        // Validate the input data
          $validatedData = $request->validate([
              'type' => 'required|max:255',
              'date' => 'required|date',
              'no_of_packs' => 'required|numeric|min:0',
+             'total_quantity' => 'required|numeric|min:0',
              'delivery_note_no' => 'required|max:255',
              'internal_delivery_no' => 'required|max:255',
              'user_id' => 'required|exists:users,id',
@@ -93,7 +95,7 @@ class PackagingTransactionController extends Controller
              $transaction->save();
  
              $packaging = Packaging::find($request->packaging_id);
-             $packaging->balance += $request->no_of_packs;
+             $packaging->balance += $request->total_quantity;
              $packaging->save();
  
              // Commit the database transaction
@@ -139,6 +141,7 @@ class PackagingTransactionController extends Controller
                  'internal_delivery_no' => $transaction->internal_delivery_no,
                  'packaging_id' => $transaction->packaging_id,
                  'no_of_packs' => $transaction->no_of_packs,
+                 'total_quantity' => $transaction->total_quantity,
                  'user_id' => $transaction->user_id,
                  'vehicle_id' => $transaction->vehicle_id,
                  'reverses' => $transaction->id,
@@ -155,7 +158,7 @@ class PackagingTransactionController extends Controller
  
  
              $packaging = Packaging::find($transaction->packaging_id);
-             $packaging->balance -= $transaction->no_of_packs;
+             $packaging->balance -= $transaction->total_quantity;
              $packaging->save();
  
              // Commit the database transaction
@@ -239,6 +242,7 @@ class PackagingTransactionController extends Controller
              'type' => 'required|max:255',
              'date' => 'required|date',
              'no_of_packs' => 'required|numeric|min:0',
+             'total_quantity' =>  'required|numeric|min:0',
              'receipt_no' => 'required|max:255',
              'destination' => 'required|max:255',
              'user_id' => 'required|exists:users,id',
@@ -253,7 +257,7 @@ class PackagingTransactionController extends Controller
  
               // Check if there is enough packaging in store
               $packaging = Packaging::find($request->packaging_id);
-              if ($packaging->balance < $request->no_of_packs) {
+              if ($packaging->balance < $request->total_quantity) {
                   DB::rollback();
                   return back()->withInput()->with('error', 'Insufficient packaging in the store to cover this transaction!.');
               }
@@ -263,8 +267,8 @@ class PackagingTransactionController extends Controller
              $transaction->fill($validatedData);
              $transaction->save();
  
-             $packaging = Packaging::find($request->ackaging_id);
-             $packaging->balance -= $request->no_of_packs;
+             $packaging = Packaging::find($request->packaging_id);
+             $packaging->balance -= $request->total_quantity;
              $packaging->save();
  
              // Commit the database transaction
@@ -304,6 +308,7 @@ class PackagingTransactionController extends Controller
                  'destination' => $transaction->destination,
                  'packaging_id' => $transaction->packaging_id,
                  'no_of_packs' => $transaction->no_of_packs,
+                 'total_quantity' => $transaction->total_quantity,
                  'user_id' => $transaction->user_id,
                  'person_id' => $transaction->person_id,
                  'reverses' => $transaction->id,
@@ -320,7 +325,7 @@ class PackagingTransactionController extends Controller
  
  
              $packaging = Packaging::find($transaction->packaging_id);
-             $packaging->balance += $transaction->no_of_packs;
+             $packaging->balance += $transaction->total_quantity;
              $packaging->save();
  
              // Commit the database transaction

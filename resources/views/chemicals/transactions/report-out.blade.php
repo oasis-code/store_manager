@@ -119,7 +119,7 @@
                 <table id="example2" class="table table-hover table-head-fixed table-sm table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            {{-- <th>Id</th> --}}
                             <th>Date</th>
                             <th>Name</th>
                             <th>category </th>
@@ -145,7 +145,7 @@
 
                                 @endphp
                                 <tr class="text-nowrap">
-                                    <td>{{ $transaction->id }}</td>
+                                    {{-- <td>{{ $transaction->id }}</td> --}}
                                     <td>{{ $transaction->date }}</td>
                                     <td>{{ $transaction->chemical->code }} - {{ $transaction->chemical->name }}</td>
                                     <td>{{ $transaction->chemical->category}}</td>

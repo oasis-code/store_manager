@@ -17,7 +17,7 @@ class PackagingTransaction extends Model
         'delivery_note_no',
         'internal_delivery_no',
         'no_of_packs',
-        'quantity in each pack',
+        'total_quantity',
         'receipt_no',
         'destination',
         'type',
@@ -29,7 +29,7 @@ class PackagingTransaction extends Model
     ];
 
     // Define relationships if necessary
-    public function packing()
+    public function packaging()
     {
         return $this->belongsTo(Packaging::class);
     }

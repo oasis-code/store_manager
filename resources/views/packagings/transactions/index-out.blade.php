@@ -30,7 +30,7 @@
                             <th>Receipt No.</th>
                             <th>Destination</th>
                             <th>Issued By</th>
-                            <th>No. Of Packs</th>
+                            <th>Packs</th>
                             <th>Quantity</th>
                            
                             <th class="text-nowrap">Action/ Comment</th>
@@ -41,9 +41,7 @@
 
 
                             @foreach ($transactions as $transaction)
-                                @php
-                                 $quantity = $transaction->no_of_packs * $transaction->packaging->quantity_per_pack;
-                                @endphp
+                              
                                 <tr class="text-nowrap @if ($transaction->is_reversed or $transaction->reverses) text-muted @endif">
                                     <td>{{ $transaction->id }}</td>
                                     <td>{{ $transaction->date }}</td>
@@ -54,7 +52,7 @@
                                     <td>{{ $transaction->destination }}</td>
                                     <td>{{ $transaction->user->name }}</td>
                                     <td>{{ $transaction->no_of_packs }}</td>
-                                    <td><b>{{ number_format($quantity, 0, '.', ',') }}</b> {{ $transaction->packaging->unit_of_measure }}</td>
+                                    <td><b>{{ number_format($transaction->total_quantity, 1, '.', ',') }}</b> @if ($transaction->packaging->category == 'bell') psc @else Kgs @endif</td>
                                  
                                     <td>
 

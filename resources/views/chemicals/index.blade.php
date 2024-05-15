@@ -25,10 +25,8 @@
                             <th>Name</th>
                             <th>Code</th>
                             <th>Purpose</th>
-
                             <th>Pack Qty</th>
                             <th>Rate</th>
-                            
                             <th>Tons</th>
                             <th>unit cost</th>
                             <th>pack cost</th>
@@ -95,7 +93,6 @@
                             <th>Purpose</th>
                             <th>Pack Qty</th>
                             <th>Rate</th>
-                            
                             <th>Ha</th>
                             <th>unit cost</th>
                             <th>pack cost</th>

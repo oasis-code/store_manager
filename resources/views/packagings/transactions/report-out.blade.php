@@ -41,7 +41,7 @@
                                         <label>Category of packaging</label>
                                         <div class="input-group ">
                                             <select class="form-control select2" id="category" name="category">
-                                                <option value="">--Select category</option>
+                                                <option value="">--All categories</option>
                                                 <option value="roll">Rolls</option>
                                                 <option value="bell">Bells</option>
                                             </select>
@@ -56,12 +56,9 @@
                                         <label>Destination</label>
                                         <div class="input-group ">
                                             <select class="form-control select2" id="destination" name="destination">
-                                                <option value="">--Select Destination</option>
+                                                <option value="">--All Destinations</option>
                                                 <option value="Factory"> Factory</option>
-                                                <option value="Parent Seed">Parent Seed</option>
-                                                <option value="Out Grower">Out Grower</option>
-                                                <option value="Research">Research</option>
-                                                <option value="Others"> Others</option>
+                                                <option value="Parent Seed">Parent Seed</option>                                                
                                             </select>
                                             @error('destination')
                                                 <div class="text-sm text-danger">{{ $message }}</div>
@@ -119,7 +116,7 @@
                 <table id="example2" class="table table-hover table-head-fixed table-sm table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            {{-- <th>Id</th> --}}
                             <th>Date</th>
                             <th>Name</th>
                             <th>category </th>
@@ -127,11 +124,10 @@
                             <th>Receipt No.</th>
                             <th>Destination</th>
                             <th>Issued By</th>
-                            <th>No. of Packs</th>
+                            <th>Packs</th>
                             <th>Qty</th>
-                            
                             <th>Rate</th>
-                            <th>Ha or Ton</th>                            
+                            <th>Ton</th>                            
                         </tr> 
                     </thead>
                     <tbody>
@@ -139,13 +135,12 @@
 
                             @foreach ($transactions as $transaction)
                                 @php
-                                    $quantity = $transaction->no_of_packs * $transaction->packaging->quantity_per_pack;
-                                    // $cost = $quantity * $transaction->packaging->unit_price;
-                                    $ha_ton = $quantity / $transaction->packaging->rate;
+                                   
+                            $tons = ($transaction->total_quantity * $transaction->packaging->rate) / 1000;
 
                                 @endphp
                                 <tr class="text-nowrap">
-                                    <td>{{ $transaction->id }}</td>
+                                    {{-- <td>{{ $transaction->id }}</td> --}}
                                     <td>{{ $transaction->date }}</td>
                                     <td>{{ $transaction->packaging->code }} - {{ $transaction->packaging->name }}</td>
                                     <td>{{ $transaction->packaging->category}}</td>
@@ -154,11 +149,9 @@
                                     <td>{{ $transaction->destination }}</td>
                                     <td>{{ $transaction->user->name }}</td>
                                     <td>{{ $transaction->no_of_packs }}</td>
-                                    <td><b>{{ number_format($quantity, 0, '.', ',') }}</b> {{ $transaction->packaging->unit_of_measure }}</td>
-                              
-                                    <td>{{ $transaction->packaging->rate }} @if ($transaction->packaging->category == 'Farm') {{ $transaction->packaging->unit_of_measure }}/Ha @else {{ $transaction->packaging->unit_of_measure }}/Ton @endif</td> 
-                                    <td>{{ number_format($ha_ton , 2, '.', ',') }} @if ($transaction->packaging->category == 'Farm') Ha(s) @else Ton(s) @endif</td> 
-                                   
+                                    <td><b>{{ number_format($transaction->total_quantity, 1, '.', ',') }}</b> @if ($transaction->packaging->category == 'bell') psc @else Kgs @endif</td>
+                                    <td>{{ $transaction->packaging->rate }} </td> 
+                                    <td>{{ number_format($tons, 2, '.', ',') }}</td>                                   
                                 </tr>
                             @endforeach
                         @else

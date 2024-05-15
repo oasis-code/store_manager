@@ -11,11 +11,10 @@ class PackagingController extends Controller
     //
     public function index()
     {
-        $roll_packagings = Packaging::where('category', 'Roll')->get();
-        $bell_packagings = Packaging::where('category', 'Bell')->get();
+        $packagings = Packaging::all();
         //dd($packagings);
         $user = Auth::user();
-        return view('packagings.index', compact('roll_packagings', 'bell_packagings', 'user'));
+        return view('packagings.index', compact('packagings', 'user'));
     }
 
     //create form
@@ -28,14 +27,13 @@ class PackagingController extends Controller
 
     public function store(Request $request)
     {
+        //dd($request);
         // Validate the input data
         $validatedData = $request->validate([            
             'name' => 'required|max:255', 
             'code' => 'nullable|max:255',
             'category' => 'required|max:255', 
             'purpose' => 'required|max:255',
-            'unit_of_measure' => 'required|max:255', 
-            'quantity_per_pack' => 'required|max:255',
             'rate' => 'required|max:255', 
             'unit_price' => 'required|numeric|min:0',
                     
@@ -43,7 +41,9 @@ class PackagingController extends Controller
 
         // Create a new packaging
         $packaging = new Packaging();
+        // dd($packaging);
         $packaging->fill($validatedData);
+       
         $packaging->save();
         return redirect()->route('packagings.index')->with('success', 'Packaging created successfully.');
     }
@@ -64,8 +64,6 @@ class PackagingController extends Controller
             'code' => 'nullable|max:255',
             'category' => 'required|max:255', 
             'purpose' => 'required|max:255',
-            'unit_of_measure' => 'required|max:255', 
-            'quantity_per_pack' => 'required|max:255',
             'rate' => 'required|max:255', 
             'unit_price' => 'required|numeric|min:0',
         ]);
