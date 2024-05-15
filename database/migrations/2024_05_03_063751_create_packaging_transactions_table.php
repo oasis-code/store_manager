@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('delivery_note_no')->nullable();
             $table->string('internal_delivery_no')->nullable();
             $table->string('no_of_packs')->nullable();
-            $table->string('quantity_per_pack')->nullable();
+            $table->string('total_quantity')->nullable();
             $table->string('receipt_no')->nullable();
             $table->string('destination')->nullable();
             $table->string('type')->nullable();

@@ -41,7 +41,7 @@
                                         <label>Category of packaging</label>
                                         <div class="input-group ">
                                             <select class="form-control select2" id="category" name="category">
-                                                <option value="">--Select category</option>
+                                                <option value="">--All categories</option>
                                                 <option value="roll">Rolls</option>
                                                 <option value="bell">Bells</option>
                                             </select>
@@ -101,17 +101,18 @@
                 <table id="example2" class="table table-hover table-head-fixed table-sm table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            {{-- <th>Id</th> --}}
                             <th>Date</th>
                             <th>Name</th>
+                            <th>Category</th>
                             <th>Vehicle</th>
                             <th>Delivery Note No.</th>
                             <th>Internal delivery No.</th>
                             <th>Received By</th>
                             <th>Packs</th>
-                            <th>Quantity</th>
+                            <th>QTY</th>
                             <th>Unit cost</th>
-                            <th>Trxn cost(UGX)</th>
+                            <th>Trxn cost</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -119,20 +120,20 @@
 
                             @foreach ($transactions as $transaction)
                                 @php
-                                    $quantity = $transaction->no_of_packs * $transaction->packaging->quantity_per_pack;
-                                    $cost = $quantity * $transaction->packaging->unit_price;
+                                    $cost = $transaction->total_quantity * $transaction->packaging->unit_price;
 
                                 @endphp
                                 <tr class="text-nowrap">
-                                    <td>{{ $transaction->id }}</td>
+                                    {{-- <td>{{ $transaction->id }}</td> --}}
                                     <td>{{ $transaction->date }}</td>
-                                    <td>{{ $transaction->packaging->code }} - {{ $transaction->packaging->name }}</td>        
+                                    <td>{{ $transaction->packaging->code }} - {{ $transaction->packaging->name }}</td>  
+                                    <td>{{ $transaction->packaging->category }}</td>                                          
                                     <td>{{ $transaction->vehicle->number_plate }}</td>
                                     <td>{{ $transaction->delivery_note_no }}</td>
                                     <td>{{ $transaction->internal_delivery_no }}</td>
                                     <td>{{ $transaction->user->name }}</td>
                                     <td>{{ $transaction->no_of_packs }}</td>
-                                    <td><b>{{ number_format($quantity, 0, '.', ',') }}</b> {{ $transaction->packaging->unit_of_measure }}</td>
+                                    <td><b>{{ number_format($transaction->total_quantity, 1, '.', ',') }}</b> @if ($transaction->packaging->category == 'bell') psc @else Kgs @endif</td>
                                     <td>{{ number_format($transaction->packaging->unit_price,0, '.',',') }} 
                                     <td><b>{{ number_format($cost, 0, '.', ',') }}</b></td>
                                 </tr>

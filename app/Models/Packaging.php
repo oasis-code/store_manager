@@ -15,6 +15,6 @@ class Packaging extends Model
         'purpose',        
         'rate',
         'unit_price',
-        'balance',
+        
     ];
 }
