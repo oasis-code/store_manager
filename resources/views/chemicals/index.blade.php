@@ -21,13 +21,14 @@
                 <table id="example2" class="table table-hover table-head-fixed table-sm table-striped">
                     <thead>
                         <tr>
-                            
+                        <th>Code</th>
                             <th>Name</th>
-                            <th>Code</th>
+                            
                             <th>Purpose</th>
 
                             <th>Pack Qty</th>
-                            <th>Rate</th>
+                            <th>Units</th>
+                            <th>Rate(/Ton)</th>
                             
                             <th>Tons</th>
                             <th>unit cost</th>
@@ -49,12 +50,13 @@
                             $balance_tons = $balace_q / $chemical->rate;
                             @endphp
                                 <tr class="text-nowrap">
-                                    <td><a href="{{ route('chemicals.edit', ['chemical' => $chemical]) }}">{{ $chemical->name }}</a>
+                                    <td><a href="{{ route('chemicals.edit', ['chemical' => $chemical]) }}">{{ $chemical->code }}</a>
                                     </td>
-                                    <td>{{ $chemical->code }}</td>
+                                    <td>{{ $chemical->name }}</td>
                                     <td>{{ $chemical->purpose }}</td>
                                     <td>{{ $chemical->quantity_per_pack }}</td>
-                                    <td>{{ $chemical->rate }} @if ($chemical->unit_of_measure === 'lt') lt/ton @else Kg/ton @endif</td>
+                                    <td>{{ $chemical->unit_of_measure }}</td>
+                                    <td>{{ $chemical->rate }} </td>
                                     
                                     <td>{{ number_format($tons, 2, '.', ',') }}</td>
                                     <td>{{ number_format($chemical->unit_price, 0, '.', ',') }}</td>
@@ -90,11 +92,13 @@
                     <thead>
                         <tr>
                             
-                            <th>Name</th>
+                            
                             <th>Code</th>
+                            <th>Name</th>
                             <th>Purpose</th>
                             <th>Pack Qty</th>
-                            <th>Rate</th>
+                            <th>Units</th>
+                            <th>Rate(/Ha)</th>
                             
                             <th>Ha</th>
                             <th>unit cost</th>
@@ -117,13 +121,13 @@
                             $balance_Ha = $balace_q / $chemical->rate;
                             @endphp
                                 <tr class="text-nowrap">
-                                    <td><a href="{{ route('chemicals.edit', ['chemical' => $chemical]) }}">{{ $chemical->name }}</a>
+                                    <td><a href="{{ route('chemicals.edit', ['chemical' => $chemical]) }}">{{ $chemical->code }}</a>
                                     </td>
-                                    <td>{{ $chemical->code }}</td>
+                                    <td>{{ $chemical->name }}</td>
                                     <td>{{ $chemical->purpose }}</td>
                                     <td>{{ $chemical->quantity_per_pack }}</td>
-                                    <td>{{ $chemical->rate }} @if ($chemical->unit_of_measure === 'lt') lt/Ha @else Kg/Ha @endif</td>
-                                    
+                                    <td>{{ $chemical->unit_of_measure }}</td>
+                                    <td>{{ $chemical->rate }} </td>
                                     <td>{{ number_format($ha, 2, '.', ',') }}</td>
                                     <td>{{ number_format($chemical->unit_price, 0, '.', ',') }}</td>
                                     <td>{{ number_format($pack_cost, 0, '.', ',') }}</td>

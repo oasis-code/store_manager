@@ -1,7 +1,7 @@
 @extends('layouts.app5')
 
-@section('title', 'Packagings ')
-@section('page_title', 'Packagings')
+@section('title', 'Packaging ')
+@section('page_title', 'Packaging')
 
 @section('bread_crumb')
     <ol class="breadcrumb float-sm-right">
@@ -48,7 +48,7 @@
                                     <td>{{ $packaging->code }}</td>
                                     <td>{{ $packaging->purpose }}</td>
                                     <td>{{ $packaging->category }}</td>
-                                    <td>{{ $packaging->rate }} @if ($packaging->unit_of_measure === 'lt') lt/ton @else Kg/ton @endif</td>
+                                    <td>{{ $packaging->rate }} @if ($packaging->category === 'roll') kg/kglm @else kg/psc @endif</td>
                                     <td>{{ number_format($packaging->unit_price, 0, '.', ',') }}</td>
                                     <td>{{ number_format($packaging->balance, 0, '.', ',') }}</td>
                                     <td>{{ number_format($packaging->balance, 0, '.', ',') }}</td>

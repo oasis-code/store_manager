@@ -22,10 +22,12 @@
                     <thead>
                         <tr>
                             
-                            <th>Name</th>
+                            
                             <th>Code</th>
-                            <th>Rate(Kg/Ha)</th>
+                            <th>Name</th>
                             <th>Pack Qty(Kg)</th>
+                            <th>Rate(Kg/Ha)</th>
+                            
                             <th>Ha</th>
                             <th>unit cost</th>
                             <th>pack cost</th>
@@ -47,10 +49,9 @@
 
                             @endphp
                                 <tr class="text-nowrap">
-                                    <td><a href="{{ route('fertilisers.edit', ['fertiliser' => $fertiliser]) }}">{{ $fertiliser->name }}</a>
+                                    <td><a href="{{ route('fertilisers.edit', ['fertiliser' => $fertiliser]) }}">{{ $fertiliser->code }}</a>
                                     </td>
-                                    <td>{{ $fertiliser->code }}</td>
-                                    
+                                    <td>{{ $fertiliser->name }}</td>
                                     <td>{{ $fertiliser->quantity_per_pack }}</td>
                                     <td>{{ $fertiliser->rate }}</td>
                                     <td>{{ number_format($tons, 2, '.', ',') }}</td>
